@@ -1,36 +1,39 @@
-const path = require('path');
+const path = require('path'); // for getting project directory path
 const http = require('http'); // imported for creating a server
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session')
-const MongoDBStore = require('connect-mongodb-session')(session);
+const MongoDBStore = require('connect-mongodb-session')(session); // TODO: Rename this variable?
 const csrf = require('csurf');
-const flash = require('connect-flash');
+const flash = require('connect-flash'); 
 const dotenv = require('dotenv');
 
-dotenv.config();
-
-const errorController = require('./controllers/error');
-const User = require('./models/user');
-
-const MONGODB_URI = "mongodb+srv://user1:fFWr3lKfHj2NXlJF@cluster0.rcm5v.mongodb.net/shop";
+dotenv.config(); // needed for using .env files 
+// TODO: Uncomment when we get the error pages uP
+// const errorController = require('./controllers/error');
+// const User = require('./models/user');
 
 const app = express();
-const store = new MongoDBStore({
-  uri: MONGODB_URI,
-  collection: 'sessions'
-});
+
+// TODO: set up database connection
+// const MONGODB_URI = "mongodb+srv://user1:fFWr3lKfHj2NXlJF@cluster0.rcm5v.mongodb.net/shop";
+// const store = new MongoDBStore({
+//   uri: MONGODB_URI,
+//   collection: 'sessions'
+// });
+
 const csrfProtection = csrf();
 
 app.set('view engine', 'ejs'); // change based on engine: pug, hbs, ejs
-app.set('views', 'views'); // default where to find templates
+app.set('views', 'views');     // default where to find templates
 
-// Registered routes
-const adminRoutes = require('./routes/admin')
-const shopRoutes = require('./routes/shop');
-const authRoutes = require('./routes/auth')
+// TODO: set up routes
+const tunerRoutes = require('./routes/tuner');
+// const shopRoutes = require('./routes/shop');
+// const authRoutes = require('./routes/auth');
+
 const corsOptions = {
   origin: "https://<your_app_name>.herokuapp.com/",
   optionsSuccessStatus: 200
@@ -47,58 +50,64 @@ app.use(
       secret: 'my secret',
       resave: false,
       saveUninitialized: false,
-      store: store
+      // store: store
     }
   )
 );
 
 app.use(csrfProtection); 
-app.use(flash());
+// app.use(flash()); Not sure if we need flash
+
+// Logic for verifying a user. Can be used later 
+//
+// app.use((req, res, next) => {
+//   if (!req.session.user) {
+//     return next();
+//   }
+//   User.findById(req.session.user._id)
+//   .then(user => {
+//     if (!user) {
+//       return next();
+//     }
+//     req.user = user; // Mongoose model user object
+//     next();
+//   })
+//   .catch(err => {
+//     throw new Error(err);
+//   });
+// });
 
 app.use((req, res, next) => {
-  if (!req.session.user) {
-    return next();
-  }
-  User.findById(req.session.user._id)
-  .then(user => {
-    if (!user) {
-      return next();
-    }
-    req.user = user; // Mongoose model user object
-    next();
-  })
-  .catch(err => {
-    throw new Error(err);
-  });
-});
-
-app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
+  // Used for user authentication. Can reuse later.
+  // res.locals.isAuthenticated = req.session.isLoggedIn; 
   res.locals.csrfToken = req.csrfToken();
   next();
 });
 
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
-app.use(authRoutes);
+// TODO: Create and use routes
+//
+app.use(tunerRoutes);
+// app.use('/admin', adminRoutes);
+// app.use(shopRoutes);
+// app.use(authRoutes);
 
-app.get('/500', errorController.get500);
-app.use(errorController.get404);
-app.use((error, req, res, next) => {
-  res.redirect('/500');
-});
+// app.get('/500', errorController.get500);
+// app.use(errorController.get404);
+// app.use((error, req, res, next) => {
+//   res.redirect('/500');
+// });
 
 
-const MONGODB_URL = process.env.MONGODB_URL || MONGODB_URI;
-let port = process.env.PORT || 3000;
+// const MONGODB_URL = process.env.MONGODB_URL || MONGODB_URI;
+// let port = process.env.PORT || 3000;
+let port = 3000;
+app.listen(port);
 
-// app.listen(port);
-
-mongoose
-  .connect(MONGODB_URL)
-  .then(result => {
-    app.listen(port);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+// mongoose
+//   .connect(MONGODB_URL)
+//   .then(result => {
+//     app.listen(port);
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
