@@ -1,0 +1,48 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <title><%= pageTitle %></title>
+-->
+<%- include('../includes/head.ejs') %>
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <div class="topnav">
+            <input type="text" placeholder="Search..">
+        </div>
+        <% if (mus.length > 0) { %>
+            <div class="grid">
+                <% for (let musician of mus) { %>
+                    <article class="card.musician-item">
+                        <header class="card_header">
+                            <h1 class="musician_tittle">Name: <%= musician.name %></h1>
+                            <h3 class="author_name">Instrument: <%= musician.instrument %></h3>
+                        </header>
+                        <div class="card_image">
+                            <img src="<%= musician.photo %>" alt="<%= musician.name %>">
+                        </div>
+                        <div class="card_content">
+                            <h4 class="musician_city">City: $<%= musician.city %></h4>
+                            <p class="musician_address">Address: <%= musician.addres %></p>
+                        </div>
+                        <div class="card_actions">
+                                <a href="/musicians/<%= musician._id %>" class="btn">Details</a>
+                            <% if (isAuthenticated) { %>
+                                <%- include('../includes/contact.ejs', {musician: musician}) %>
+                            <% }%>
+                        </div>
+                    </article>
+                <% } %>
+            </div>
+        <% } else { %>
+            <h1>No musicians yet!</h1>
+        <% } %>
+    </main>
+<%- include('../includes/end.ejs') %>

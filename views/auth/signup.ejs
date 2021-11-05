@@ -1,3 +1,13 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <title><%= pageTitle %></title>
+-->
 <%- include('../includes/head.ejs') %>
     <link rel="stylesheet" href="/css/forms.css">
     <link rel="stylesheet" href="/css/auth.css">
@@ -12,6 +22,24 @@
         <% } %>
         <form class="login-form" action="/signup" method="POST">
             <div class="form-control">
+                <label for="name">Name</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'name') ? 'invalid' : '' %>"
+                    type="text" 
+                    name="name" 
+                    id="name" 
+                    value="<% if (editing || hasError ) { %><%= musician.name %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="instrument">Instrument</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'instrument') ? 'invalid' : '' %>"
+                    type="text" 
+                    name="instrument" 
+                    id="instrument" 
+                    value="<% if (editing || hasError ) { %><%= musician.instrument %><% } %>">
+            </div>
+            <div class="form-control">
                 <label for="email">E-Mail</label>
                 <input type="email" name="email" id="email" value="<%= oldInput.email %>">
             </div>
@@ -22,6 +50,18 @@
             <div class="form-control">
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" id="confirmPassword" value="<%= oldInput.confirmPassword %>"">
+            </div>
+            <div class="form-control">
+                <label for="text">City</label>
+                <input type="text" name="city" id="city" value="<%= oldInput.city %>">
+            </div>
+            <div class="form-control">
+                <label for="address"><Address></Address></label>
+                <textarea 
+                    class="address"
+                    name="address" 
+                    id="address" 
+                    rows="5"><% if (editing || hasError) { %><%= musician.address %><% } %></textarea>
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class="btn" type="submit">Signup</button>
