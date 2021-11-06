@@ -6,6 +6,6 @@ const basicController = require('../controllers/basic');
 
 const router = express.Router();
 
-router.get('/', basicController.getBasic);
+router.get('/basic', basicController.getBasic);
 
 module.exports = router;
