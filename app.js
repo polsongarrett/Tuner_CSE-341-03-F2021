@@ -2,12 +2,13 @@ const path = require('path'); // for getting project directory path
 const http = require('http'); // imported for creating a server
 const cors = require('cors');
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const session = require('express-session')
-const MongoDBStore = require('connect-mongodb-session')(session); // TODO: Rename this variable?
+// Not sure which of the following we need:
+// const mongoose = require('mongoose');
+// const MongoDBStore = require('connect-mongodb-session')(session); // TODO: Rename this variable?
+// const flash = require('connect-flash'); 
 const csrf = require('csurf');
-const flash = require('connect-flash'); 
 const dotenv = require('dotenv');
 
 dotenv.config();

@@ -1,7 +1,8 @@
 exports.getIndex = (req, res, next) => 
 {
-  res.render('tuner/search', {
+  res.render('index', {
       pageTitle: 'Search',
-      path: '/'
+      path: '/',
+      mus: [] //Placeholder to work with index.ejs
   });
 };
