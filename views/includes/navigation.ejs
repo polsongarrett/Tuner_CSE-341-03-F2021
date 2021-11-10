@@ -4,18 +4,21 @@
 	<nav class="main-header__nav">
 		<ul class="main-header__item-list">
 			<li class="main-header__item">
-				<a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
+				<a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
 			</li>
 			<li class="main-header__item">
-				<a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
+				<a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Profile</a>
+			</li>
+			<li class="main-header__item">
+				<a class="<%= path === '/search' ? 'active' : '' %>" href="/products">Search</a>
 			</li>
 		</ul>
 		<ul class="main-header__item-list">
             <li class="main-header_item">
-                <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+                <a class="<%= path === '/signup' ? 'active' : '' %>" href="/login">Signup</a>
             </li>
             <li class="main-header_item">
-                <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
+                <a class="<%= path === '/login' ? 'active' : '' %>" href="/signup">login</a>
             </li>
 		</ul>
 	</nav>
