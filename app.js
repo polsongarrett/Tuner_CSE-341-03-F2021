@@ -37,7 +37,7 @@ app.set('views', 'views');     // default where to find templates
 // TODO: set up routes
 // Registered routes
 const errorController = require('./controllers/error');
-const basicRoutes = require('./routes/basic')
+const adminRoutes = require('./routes/admin')
 const tunerRoutes = require('./routes/tuner');
 // const shopRoutes = require('./routes/shop');
 // const authRoutes = require('./routes/auth');
@@ -93,10 +93,9 @@ app.use((req, res, next) => {
 
 // TODO: Create and use routes
 //
+app.use(adminRoutes);
 app.use(tunerRoutes);
-app.use(basicRoutes);
 app.use(errorController.get404);
-// app.use('/admin', adminRoutes);
 // app.use(shopRoutes);
 // app.use(authRoutes);
 
