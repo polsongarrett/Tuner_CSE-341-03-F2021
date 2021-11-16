@@ -14,35 +14,43 @@
     <%- include('./includes/navigation.ejs') %>
 
     <main>
-        <div class="topnav">
-            <input type="text" placeholder="Search..">
-        </div>
-        <% if ( mus.length > 0) { %>
-            <div class="grid">
-                <% for (let musician of mus) { %>
-                    <article class="card.musician-item">
-                        <header class="card_header">
-                            <h1 class="musician_tittle">Name: <%= musician.name %></h1>
-                            <h3 class="author_name">Instrument: <%= musician.instrument %></h3>
-                        </header>
-                        <div class="card_image">
-                            <img src="<%= musician.photo %>" alt="<%= musician.name %>">
-                        </div>
-                        <div class="card_content">
-                            <h4 class="musician_city">City: $<%= musician.city %></h4>
-                            <p class="musician_address">Address: <%= musician.addres %></p>
-                        </div>
-                        <div class="card_actions">
-                                <a href="/musicians/<%= musician._id %>" class="btn">Details</a>
-                            <% if (isAuthenticated) { %>
-                                <%- include('../includes/contact.ejs', {musician: musician}) %>
-                            <% }%>
-                        </div>
-                    </article>
-                <% } %>
+        <div class="search-page">
+            <div class="search-box">
+                <h1 class="search-box__heading">Search</h1>
+                <div class="search-box__filters">
+                    <input type="text" placeholder="Search..">
+                    <button class="search-box__button btn">Search</button>
+                </div>
             </div>
-        <% } else { %>
-            <h1>No musicians yet!</h1>
-        <% } %>
+            <div class="search-results">
+            <% if ( mus.length > 0) { %>
+                <div class="grid">
+                    <% for (let musician of mus) { %>
+                        <article class="card_musician">
+                            <div class="card_image">
+                                <img src="<%= musician.photo %>" alt="<%= musician.name %>">
+                            </div>
+                            <div class="card_content">
+                                <header class="card_header">
+                                    <h1 class="musician_name">Name: <%= musician.name %></h1>
+                                    <h2 class="musician_instrument">Instrument: <%= musician.instrument %></h3>
+                                </header>
+                                <h3 class="musician_city">City: $<%= musician.city %></h4>
+                                <p class="musician_address">Address: <%= musician.address %></p>
+                            </div>
+                            <div class="card_actions">
+                                    <a href="/musicians/<%= musician._id %>" class="btn">Details</a>
+                                <% if (isAuthenticated) { %>
+                                    <%- include('../includes/contact.ejs', {musician: musician}) %>
+                                <% }%>
+                            </div>
+                        </article>
+                    <% } %>
+                </div>
+            <% } else { %>
+                <h1>No musicians yet!</h1>
+            <% } %>
+            </div>
+        </div>
     </main>
 <%- include('./includes/end.ejs') %>
