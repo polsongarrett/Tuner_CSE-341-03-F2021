@@ -23,7 +23,7 @@ dotenv.config(); // needed for using .env files
 const app = express();
 
 // TODO: set up database connection
-// const MONGODB_URI = "mongodb+srv://user1:fFWr3lKfHj2NXlJF@cluster0.rcm5v.mongodb.net/shop";
+// const MONGODB_URI = "mongodb+srv://Admin:4Dmin21@cluster0.pjfz1.mongodb.net/test";
 // const store = new MongoDBStore({
 //   uri: MONGODB_URI,
 //   collection: 'sessions'
