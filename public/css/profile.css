@@ -1,0 +1,17 @@
+.centered {
+    text-align: center;
+  }
+
+.profile-photo img {
+    width: 100%;
+}
+
+/* MEDIA BREAK SECTION */
+@media (min-width: 768px) {
+    
+    .profile-photo img {
+        width: 500px;
+    }
+
+
+} /* END MEDIA BREAK */
