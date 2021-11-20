@@ -22,3 +22,19 @@ exports.getSignup = (req, res, next) =>
       path: '/views/auth/signup',
   });
 };
+
+exports.getProfile = (req, res, next) => 
+{
+  res.render('musician/profile', {
+      pageTitle: 'Profile',
+      path: '/views/musician/profile',
+      // Obvious placeholder code...
+      musician: {
+        name: "Bill",
+        imageUrl: "images/bill-and-guitar.jpg",
+        instrument: "Guitar",
+        address: "320 Elm St.",
+        city: "Nashville"
+      }
+  });
+};

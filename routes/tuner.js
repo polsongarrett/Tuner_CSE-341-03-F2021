@@ -9,4 +9,6 @@ router.get('/login', tunerController.getLogin);
 
 router.get('/signup', tunerController.getSignup);
 
+router.get('/profile', tunerController.getProfile);
+
 module.exports = router;

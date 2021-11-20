@@ -18,10 +18,10 @@
             <main>
                 <div class="welcome">
                     <h1>Welcome <%= musician.name %>!</h1>
-                    <h3>My Page</h3>
+                    <h3><%= musician.name %>'s Page</h3>
                 </div>
                 <div class="profile-photo">
-                    <img alt="My photo">
+                    <img src="<%= musician.imageUrl %>" alt="<%= musician.name %>">
                 </div>
                 <div class="user-data">
                     <p><%= musician.instrument %></p>
