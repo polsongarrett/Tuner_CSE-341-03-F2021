@@ -39,6 +39,7 @@ app.set('views', 'views');     // default where to find templates
 const errorController = require('./controllers/error');
 const adminRoutes = require('./routes/admin')
 const tunerRoutes = require('./routes/tuner');
+const searchRoutes = require('./routes/search');
 // const shopRoutes = require('./routes/shop');
 // const authRoutes = require('./routes/auth');
 
