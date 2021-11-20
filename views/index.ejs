@@ -18,9 +18,43 @@
             <div class="search-box">
                 <h1 class="search-box__heading">Search</h1>
                 <div class="search-box__filters">
-                    
-                    <input type="text" placeholder="Search..">
-                    <button class="search-box__button btn">Search</button>
+                    <form action="/search" method="post">
+                        <input type="text" placeholder="Search by name">
+                        <details>
+                            <summary>Search by Location:</summary>
+                            <input type="text" placeholder="Location" name="location">
+                        </details>
+                        <details>
+                            <summary>Search by Name: </summary>
+                            <input type="text" name="search_name">
+                        </details>
+                        <details>
+                            <summary>Search for vocals:</summary>
+                            <input type="checkbox" name="lead_vocals" class="search-box__checkbox" id="lead_vocals">
+                            <label for="lead_vocals">Lead vocals</label>
+                            <input type="checkbox" name="backup_vocals" class="search-box__checkbox" id="backup_vocals">
+                            <label for="lead_vocals">Backup vocals</label>
+                        </details>
+                        <% if (instruments.length > 0) { %>
+                            <details>
+                                <summary>Search by instrument:</summary>
+                                <% for (let instrument of intstruments) { %>
+                                    <input type="checkbox" class="instrument_checkbox search-box__checkbox" name="<%= instrument.name %>" value="<%= instrument.name %>">
+                                    <label for="<%= instrument.name %>"><%= instrument.name %></label>
+                                <% } > 
+                            </details>
+                        <% } %>
+                        <% if (genres.length > 0) { %>
+                            <details>
+                                <summary>Search by genre:</summary>
+                                <% for (let genre of genres) { %>
+                                    <input type="checkbox" class="genre_checkbox search-box__checkbox" name="<%= genre.name %>" value="<%= genre.name %>">
+                                    <label for="<%= genre.name %>"><%= genre.name %></label>
+                                <% } > 
+                            </details>
+                        <% } %>
+                        <button class="search-box__button btn" type="submit" >Search</button>
+                    </form>
                 </div>
             </div>
             <div class="search-results">
