@@ -41,7 +41,7 @@
                                 <% for (let instrument of intstruments) { %>
                                     <input type="checkbox" class="instrument_checkbox search-box__checkbox" name="<%= instrument.name %>" value="<%= instrument.name %>">
                                     <label for="<%= instrument.name %>"><%= instrument.name %></label>
-                                <% } > 
+                                <% } %> 
                             </details>
                         <% } %>
                         <% if (genres.length > 0) { %>
@@ -50,7 +50,7 @@
                                 <% for (let genre of genres) { %>
                                     <input type="checkbox" class="genre_checkbox search-box__checkbox" name="<%= genre.name %>" value="<%= genre.name %>">
                                     <label for="<%= genre.name %>"><%= genre.name %></label>
-                                <% } > 
+                                <% } %> 
                             </details>
                         <% } %>
                         <button class="search-box__button btn" type="submit" >Search</button>

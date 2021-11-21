@@ -101,6 +101,7 @@ app.use((req, res, next) => {
 
 // TODO: Create and use routes
 //
+app.use(searchRoutes);
 app.use(adminRoutes);
 app.use(tunerRoutes);
 app.use(errorController.get404);
