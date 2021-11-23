@@ -26,7 +26,7 @@
                         </details>
                         <details>
                             <summary>Search by Name: </summary>
-                            <input type="text" name="search_name">
+                            <input type="text" name="search_name" placeholder="Search by name">
                         </details>
                         <details>
                             <summary>Search for vocals:</summary>
@@ -38,6 +38,7 @@
                         <% if (instruments.length > 0) { %>
                             <details>
                                 <summary>Search by instrument:</summary>
+                                    <input type="text" name="search_instrument" placeholder="Search by instrument">
                                 <% for (let instrument of intstruments) { %>
                                     <input type="checkbox" class="instrument_checkbox search-box__checkbox" name="<%= instrument.name %>" value="<%= instrument.name %>">
                                     <label for="<%= instrument.name %>"><%= instrument.name %></label>
@@ -47,6 +48,7 @@
                         <% if (genres.length > 0) { %>
                             <details>
                                 <summary>Search by genre:</summary>
+                                <input type="text" name="search_genre" placeholder="Search by genre">
                                 <% for (let genre of genres) { %>
                                     <input type="checkbox" class="genre_checkbox search-box__checkbox" name="<%= genre.name %>" value="<%= genre.name %>">
                                     <label for="<%= genre.name %>"><%= genre.name %></label>
