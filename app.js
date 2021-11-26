@@ -5,17 +5,17 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 // Not sure which of the following we need:
-// const mongoose = require('mongoose');
-// const MongoDBStore = require('connect-mongodb-session')(session); // TODO: Rename this variable?
+const mongoose = require('mongoose');
+const MongoDBStore = require('connect-mongodb-session')(session); // TODO: Rename this variable?
 // const flash = require('connect-flash'); 
 const csrf = require('csurf');
 const dotenv = require('dotenv');
 
-dotenv.config();
+dotenv.config(); 
 
 const PORT = process.env.PORT || 5000;
 
-dotenv.config(); // needed for using .env files 
+// needed for using .env files 
 // TODO: Uncomment when we get the error pages uP
 // const errorController = require('./controllers/error');
 // const User = require('./models/user');
@@ -23,11 +23,18 @@ dotenv.config(); // needed for using .env files
 const app = express();
 
 // TODO: set up database connection
-// const MONGODB_URI = "mongodb+srv://Admin:4Dmin21@cluster0.pjfz1.mongodb.net/test";
-// const store = new MongoDBStore({
-//   uri: MONGODB_URI,
-//   collection: 'sessions'
-// });
+const MONGODB_URI = "mongodb+srv://Admin:4Dmin21@cluster0.pjfz1.mongodb.net/Tuner";
+const store = new MongoDBStore({
+  uri: MONGODB_URI,
+  collection: 'sessions'
+});
+
+const Options = {
+  useUnifiedTopology: true,
+  useNewURLParser: true,
+  family: 4
+};
+
 
 const csrfProtection = csrf();
 
@@ -57,7 +64,7 @@ app.use(
       secret: 'my secret',
       resave: false,
       saveUninitialized: false,
-      // store: store
+      store: store
     }
   )
 );
@@ -106,16 +113,17 @@ app.use(errorController.get404);
 // });
 
 
-// const MONGODB_URL = process.env.MONGODB_URL || MONGODB_URI;
+const MONGODB_URL = process.env.MONGODB_KEY || MONGODB_URI;
 
-app.listen(PORT);
-console.log("Now listening on " + PORT);
+// app.listen(PORT);
+// console.log("Now listening on " + PORT);
 
-// mongoose
-//   .connect(MONGODB_URL)
-//   .then(result => {
-//     app.listen(port);
-//   })
-//   .catch(err => {
-//     console.log(err);
-//   });
+mongoose
+  .connect(MONGODB_URL, Options)
+  .then(result => {
+    app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+  })
+  .catch(err => {
+    console.log(err);
+  });

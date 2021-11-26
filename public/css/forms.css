@@ -65,6 +65,10 @@ body {
   .form-control textarea.invalid {
     border-color: #FF0035;
   }
+
+  .form-error {
+    color: crimson;
+  }
   
   .btn {
     background: linear-gradient(#F4EBD9, #F4EBB9);

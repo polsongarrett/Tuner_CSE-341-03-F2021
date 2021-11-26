@@ -47,6 +47,11 @@
             <div class="form-control">
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" id="confirmPassword" value="">
+                <% if (error != null) {%>
+                    <% if (error[0] == 'confirmPassword') { %>
+                        <span class="form-error"><%= error[1] %></span>
+                    <% } %>
+                <% } %>
             </div>
             <div class="form-control">
                 <label for="text">City</label>
@@ -60,7 +65,7 @@
                     id="address" 
                     rows="5"></textarea>
             </div>
-            <input type="hidden" name="_csrf" value="">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class="btn" type="submit">Signup</button>
         </form>
     </main>
