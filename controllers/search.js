@@ -16,7 +16,7 @@ exports.getIndex = (req, res, next) =>
 
     //     }
     // ]
-1
+
     const musicians = musicianModel.getMusicians();
   res.render('index', {
       pageTitle: 'Search',
