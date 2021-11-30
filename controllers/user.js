@@ -37,7 +37,7 @@ exports.getEditProfile = (req, res, next) =>
 exports.postEditProfile = (req, res, next) => 
 {
   // TODO: replace placholder data with req.body.xyz
-  const userId = "6198832c9e440c39ea246875";
+  const userId = "619d67db1e540854b9a69072";
   const updatedUsername = "BillyBob";
   const updatedImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.rollingstone.com%2Fmusic%2Fmusic-country%2Fbilly-bob-thornton-on-media-lies-musical-truths-and-new-boxmasters-album-106199%2F&psig=AOvVaw1yr6c2gyu1xP2w2Pooue2B&ust=1637728508210000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNDfuaPUrfQCFQAAAAAdAAAAABAJ";
   const updatedEmail = "bb123xyz@gmail.com";
@@ -45,13 +45,16 @@ exports.postEditProfile = (req, res, next) =>
   const updatedFirstName = "Billy";
   const updatedLastName = "Bob";
   const updatedCity = "Montgomery";
+  const updatedCountry = "USA";
+  const updatedLongitude = "";
+  const updatedLatitude = "";
   const updatedLead_vocals = true;
   const updatedBackup_vocals = false;
   const updatedGenres = ["Country", "R&B", "Rock"];
   const updatedInstruments = ["Guitar", "Banjo", "Piano"];
   
   // DELETE 
-  const user = new User({
+  const updatedUser = new User({
     username : updatedUsername,
     imageUrl : updatedImageUrl,
     email : updatedEmail,
@@ -59,18 +62,45 @@ exports.postEditProfile = (req, res, next) =>
     musician: {
       firstName : updatedFirstName,
       lastName : updatedLastName,
-      city : updatedCity,
+      location : {
+        city : updatedCity,
+        country : updatedCountry,
+        longitude : updatedLongitude,
+        latitude : updatedLatitude
+      },
       lead_vocals : updatedLead_vocals,
       backup_vocals : updatedBackup_vocals,
       genres : updatedGenres,
       instruments : updatedInstruments
     }
-    
   });
-  user
-    .save()
+
+  User.findById(userId)
+    .then(user => {
+      // user = updatedUser;
+      // user.username = updatedUsername;
+      // user.imageURl = updatedImageUrl;
+      // user.email = updatedEmail;
+      // user.password = updatedPassword;
+      // user.musician.firstName = updatedFirstName;
+      // user.musician.lastName = updatedLastName;
+      // user.musician.genres = updatedGenres;
+      // user.musician.instruments = updatedInstruments;
+      // user.musician.lead_vocals = updatedLead_vocals;
+      // user.musician.backup_vocals = updatedBackup_vocals;
+      // user.musician.location.city = updatedCity;
+      // user.musician.location.country = updatedCountry;
+      // user.musician.location.longitude = updatedLongitude;
+      // user.musician.location.latitude = updatedLatitude;
+
+      
+      
+      // return user.save()
+      console.log(user.musician.genres);
+      console.log(updatedUser.musician.genres);
+    })
     .then(result => {
-        res.redirect("/profile");
+      res.redirect("/profile");
     })
     .catch(err => {
       console.log(err);
