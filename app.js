@@ -4,27 +4,26 @@ const cors = require('cors');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-// Not sure which of the following we need:
 const mongoose = require('mongoose');
-const MongoDBStore = require('connect-mongodb-session')(session); // TODO: Rename this variable?
+const MongoDBTuner = require('connect-mongodb-session')(session);
 // const flash = require('connect-flash'); 
-const csrf = require('csurf');
+// const csrf = require('csurf');
 const dotenv = require('dotenv');
 
-dotenv.config(); 
+dotenv.config(); // needed for using .env files 
 
-const PORT = process.env.PORT || 5000;
+// const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
-// needed for using .env files 
-// TODO: Uncomment when we get the error pages uP
+// TODO: Uncomment when we get the error pages up
 // const errorController = require('./controllers/error');
-// const User = require('./models/user');
+const User = require('./models/user');
 
 const app = express();
 
 // TODO: set up database connection
 const MONGODB_URI = "mongodb+srv://Admin:4Dmin21@cluster0.pjfz1.mongodb.net/Tuner";
-const store = new MongoDBStore({
+const tuner = new MongoDBTuner({
   uri: MONGODB_URI,
   collection: 'sessions'
 });
@@ -36,7 +35,7 @@ const Options = {
 };
 
 
-const csrfProtection = csrf();
+// const csrfProtection = csrf();
 
 app.set('view engine', 'ejs'); // change based on engine: pug, hbs, ejs
 app.set('views', 'views');     // default where to find templates
@@ -44,7 +43,7 @@ app.set('views', 'views');     // default where to find templates
 // TODO: set up routes
 // Registered routes
 const errorController = require('./controllers/error');
-const adminRoutes = require('./routes/admin')
+const userRoutes = require('./routes/user')
 const tunerRoutes = require('./routes/tuner');
 // const shopRoutes = require('./routes/shop');
 // const authRoutes = require('./routes/auth');
@@ -64,12 +63,12 @@ app.use(
       secret: 'my secret',
       resave: false,
       saveUninitialized: false,
-      store: store
+      tuner: tuner
     }
   )
 );
 
-app.use(csrfProtection); 
+// app.use(csrfProtection); 
 // app.use(flash()); Not sure if we need flash
 
 // Logic for verifying a user. Can be used later 
@@ -94,13 +93,13 @@ app.use(csrfProtection);
 app.use((req, res, next) => {
   // Used for user authentication. Can reuse later.
   // res.locals.isAuthenticated = req.session.isLoggedIn; 
-  res.locals.csrfToken = req.csrfToken();
+  // res.locals.csrfToken = req.csrfToken();
   next();
 });
 
 // TODO: Create and use routes
 //
-app.use(adminRoutes);
+app.use(userRoutes);
 app.use(tunerRoutes);
 app.use(errorController.get404);
 // app.use(shopRoutes);

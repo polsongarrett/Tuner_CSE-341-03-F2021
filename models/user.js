@@ -140,3 +140,13 @@ module.exports = mongoose.model('User', userSchema);
     .catch(err => console.log(err));
 };
 */
+
+// // function exports
+// exports.addUser = addUser;
+// exports.checkForUser = checkForUser;
+// exports.checkForOneUser = checkForOneUser;
+// exports.getUserMusician = getUserMusician;
+// exports.updateUser = updateUser;
+// exports.deleteUser = deleteUser;
+
+module.exports = mongoose.model('User', userSchema);

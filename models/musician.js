@@ -13,7 +13,7 @@ const Schema = mongoose.Schema;
 // MUSICIAN
 // This is the schema for one of our users. It contains information about who they are,
 // where they play and what instruments they play
-const musician = new Schema({
+const musicianSchema = new Schema({
     first_name: {
         type: String,
         required: true
@@ -35,20 +35,22 @@ const musician = new Schema({
         require: true
     },
     genres: [
-        { genreID: {
-            type: Schema.Types.ObjectId,
+        { genre: {
+            // type: Schema.Types.ObjectId,
+            type: String,
             required: true
         }}
     ],
     instruments: [
-        { instrumentID: {
-            type: Schema.Types.ObjectId,
+        { instrument: {
+            // type: Schema.Types.ObjectId,
+            type: String,
             required: true
         }}
     ]
 })
 // Create the model in compass
-musicianTable = mongoose.model("Musicians", musician)
+// musicianTable = mongoose.model("Musicians", musician)
 
 
 // CRUD FUNCTIONS //
@@ -134,8 +136,10 @@ const removeMusician = (id) => {
 };
 
 //export functions
-exports.createMusician = createMusician;
-exports.getMusician = getMusician;
-exports.getMusicians = getMusicians;
-exports.updateMusician = updateMusician;
-exports.removeMusician = removeMusician;
+// exports.createMusician = createMusician;
+// exports.getMusician = getMusician;
+// exports.getMusicians = getMusicians;
+// exports.updateMusician = updateMusician;
+// exports.removeMusician = removeMusician;
+
+module.exports = mongoose.model('Musician', musicianSchema);

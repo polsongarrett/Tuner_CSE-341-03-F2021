@@ -11,6 +11,4 @@ router.get('/login', tunerController.getLogin);
 router.post('/signup', tunerController.signup);
 router.get('/signup', tunerController.getSignup);
 
-router.get('/profile', tunerController.getProfile);
-
 module.exports = router;
