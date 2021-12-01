@@ -46,6 +46,7 @@ app.set('views', 'views');     // default where to find templates
 const errorController = require('./controllers/error');
 const adminRoutes = require('./routes/admin')
 const tunerRoutes = require('./routes/tuner');
+const searchRoutes = require('./routes/search');
 // const shopRoutes = require('./routes/shop');
 // const authRoutes = require('./routes/auth');
 
@@ -93,13 +94,14 @@ app.use(csrfProtection);
 
 app.use((req, res, next) => {
   // Used for user authentication. Can reuse later.
-  // res.locals.isAuthenticated = req.session.isLoggedIn; 
+  res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   next();
 });
 
 // TODO: Create and use routes
 //
+app.use(searchRoutes);
 app.use(adminRoutes);
 app.use(tunerRoutes);
 app.use(errorController.get404);
