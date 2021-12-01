@@ -219,7 +219,19 @@ main {
     }
 
     .user-message {
-        width: 30rem;
+      margin: auto;
+      width: 50%;
+      border: 1px solid blue;
+      padding: 0.5rem;
+      border-radius: 3px;
+      background: #dfe2ff;
+      text-align: center;
+    }
+    
+    .user-message--error {
+      border-color: red;
+      background-color: #ffecec;
+      color: #aa0202;
     }
 
     .grid {

@@ -17,23 +17,28 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main>
+        <h1>Signup</h1>
+                <!-- Following if statement checks for the errorMessage variable called from our 'signup' function in tuner.js. If there it displays it.-->
+                <% if (errorMessage) { %>
+                    <div class="user-message user-message--error"><%- errorMessage %></div> <!-- here I had to use '-' in <%- errorMessage %> and not the '=' because I am using unescaped HTML in my auth.js controller to show a link. -->
+                <% } %>
         <form class="login-form" action="/signup" method="POST">
             <div class="form-control">
-                <label for="name">Name</label>
+                <label for="firstName">First Name</label>
                 <input 
                     class=""
                     type="text" 
-                    name="name" 
-                    id="name" 
+                    name="firstName" 
+                    id="firstName" 
                     value="">
             </div>
             <div class="form-control">
-                <label for="instrument">Instrument</label>
+                <label for="lastName">Last Name</label>
                 <input 
                     class=""
                     type="text" 
-                    name="instrument" 
-                    id="instrument" 
+                    name="lastName" 
+                    id="lastName" 
                     value="">
             </div>
             <div class="form-control">
@@ -47,23 +52,7 @@
             <div class="form-control">
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" name="confirmPassword" id="confirmPassword" value="">
-                <% if (error != null) {%>
-                    <% if (error[0] == 'confirmPassword') { %>
-                        <span class="form-error"><%= error[1] %></span>
-                    <% } %>
-                <% } %>
-            </div>
-            <div class="form-control">
-                <label for="text">City</label>
-                <input type="text" name="city" id="city" value="">
-            </div>
-            <div class="form-control">
-                <label for="address">Address</Address></label>
-                <textarea 
-                    class="address"
-                    name="address" 
-                    id="address" 
-                    rows="5"></textarea>
+                <!-- code used by Stephen for errors went here -->
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class="btn" type="submit">Signup</button>

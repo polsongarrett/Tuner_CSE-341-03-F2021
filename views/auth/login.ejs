@@ -17,6 +17,12 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main>
+    <h1>Login</h1>
+        <!-- Following if statement checks for the errorMessage variable called from our 'getLogin' function in auth.js. If there it displays it.-->
+        <% if (errorMessage) { %>
+            <!--   <div class="user-message user-message--error"><%= errorMessage %></div> -->
+            <%- errorMessage %> <!-- here I had to use '-' in front of errorMessage and not the '=' because I am using unescaped HTML in my tuner.js controller to show a link. -->
+            <% } %>
         <form class="login-form" action="/login" method="POST" novalidate>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
             <div class="form-control">

@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 // Not sure which of the following we need:
 const mongoose = require('mongoose');
 const MongoDBStore = require('connect-mongodb-session')(session); // TODO: Rename this variable?
-// const flash = require('connect-flash'); 
+const flash = require('connect-flash'); 
 const csrf = require('csurf');
 const dotenv = require('dotenv');
 
@@ -70,7 +70,7 @@ app.use(
 );
 
 app.use(csrfProtection); 
-// app.use(flash()); Not sure if we need flash
+app.use(flash()); // We are using flash for error messaging on the signup page etc.
 
 // Logic for verifying a user. Can be used later 
 //

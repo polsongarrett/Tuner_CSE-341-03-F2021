@@ -2,72 +2,95 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+// the next lines define our user schema.
 const userSchema = new Schema({
-	username: {
-		type: String,
-		required: true
+	firstName: {
+	  type: String,
+	  required: true
+	},
+	lastName: {
+	  type: String,
+	  required: true
 	},
 	email: {
-		type: String,
-		required: true
+	  type: String,
+	  required: true
 	},
 	password: {
-		type: String,
-		required: true
+	  type: String,
+	  required: true
 	},
-	imageUrl: {
-		type: String,
-		required: true
-	},
-	musician: {
-		first_name: {
-			type: String,
-			required: true
-		},
-		last_name: {
-			type: String,
-			required: true
-		},
-		location: {
-			city: {
-				type: String,
-				require: true
-			},
-			country: {
-				type: String,
-				require: true
-			},
-			longitude: {
-				type: Number,
-				require: true
-			},
-			latitude: {
-				type: Number,
-				require: true
-			}
-		},
-		lead_vocals: {
-			type: Boolean,
-			require: true
-		},
-		backup_vocals: {
-			type: Boolean,
-			require: true
-		},
-		genres: [{
-			genreName: {
-				type: String,
-				required: true
-			}
-		}],
-		instruments: [{
-			instrumentName: {
-				type: String,
-				required: true
-			}
-		}]
-	}
-});
+	resetToken: String,
+	restTokenExpiration: Date
+  });
+
+// THE FOLLOWING IS STEPHEN'S CODE
+// const userSchema = new Schema({
+// 	username: {
+// 		type: String,
+// 		required: true
+// 	},
+// 	email: {
+// 		type: String,
+// 		required: true
+// 	},
+// 	password: {
+// 		type: String,
+// 		required: true
+// 	},
+// 	imageUrl: {
+// 		type: String,
+// 		required: true
+// 	},
+// 	musician: {
+// 		first_name: {
+// 			type: String,
+// 			required: true
+// 		},
+// 		last_name: {
+// 			type: String,
+// 			required: true
+// 		},
+// 		location: {
+// 			city: {
+// 				type: String,
+// 				require: true
+// 			},
+// 			country: {
+// 				type: String,
+// 				require: true
+// 			},
+// 			longitude: {
+// 				type: Number,
+// 				require: true
+// 			},
+// 			latitude: {
+// 				type: Number,
+// 				require: true
+// 			}
+// 		},
+// 		lead_vocals: {
+// 			type: Boolean,
+// 			require: true
+// 		},
+// 		backup_vocals: {
+// 			type: Boolean,
+// 			require: true
+// 		},
+// 		genres: [{
+// 			genreName: {
+// 				type: String,
+// 				required: true
+// 			}
+// 		}],
+// 		instruments: [{
+// 			instrumentName: {
+// 				type: String,
+// 				required: true
+// 			}
+// 		}]
+// 	}
+// });
 
 module.exports = mongoose.model('User', userSchema);
 
