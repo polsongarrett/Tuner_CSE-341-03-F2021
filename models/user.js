@@ -54,18 +54,8 @@ const userSchema = new Schema({
 			type: Boolean,
 			require: true
 		},
-		genres: [{
-			genreName: {
-				type: String,
-				required: true
-			}
-		}],
-		instruments: [{
-			instrumentName: {
-				type: String,
-				required: true
-			}
-		}]
+		genres: [String],
+		instruments: [String]
 	}
 });
 

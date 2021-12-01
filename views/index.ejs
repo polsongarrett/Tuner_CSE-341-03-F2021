@@ -12,6 +12,7 @@
 </head>
 <body>
     <%- include('./includes/navigation.ejs') %>
+    <link rel="stylesheet" href="/css/search.css">
 
     <main>
         <div class="search-page">
@@ -19,42 +20,35 @@
                 <h1 class="search-box__heading">Search</h1>
                 <div class="search-box__filters">
                     <form action="/search" method="post">
-                        <input type="text" placeholder="Search by keyword" >
+                        <!-- <input class="form-control" type="text" placeholder="Search by keyword" name="keyword"> -->
                         <details>
-                            <summary>Search by Location:</summary>
-                            <input type="text" placeholder="Location" name="location">
+                            <summary>Search by city name:</summary>
+                            <input class="form-control" type="text" placeholder="City name" name="city">
                         </details>
                         <details>
                             <summary>Search by Name: </summary>
-                            <input type="text" name="search_name" placeholder="Search by name">
+                            <label class="form-control" for="first_name">First name: </label>
+                            <input type="text" name="first_name" placeholder="Search by first name">
+                            <br>
+                            <label class="form-control" for="last_name">Last name: </label>
+                            <input type="text" name="last_name" placeholder="Search by last name">
                         </details>
                         <details>
                             <summary>Search for vocals:</summary>
-                            <input type="checkbox" name="lead_vocals" class="search-box__checkbox" id="lead_vocals">
-                            <label for="lead_vocals">Lead vocals</label>
-                            <input type="checkbox" name="backup_vocals" class="search-box__checkbox" id="backup_vocals">
-                            <label for="lead_vocals">Backup vocals</label>
+                            <input class="form-control" type="checkbox" name="lead_vocals" class="search-box__checkbox" id="lead_vocals">
+                            <label class="form-control" for="lead_vocals">Lead vocals</label>
+                            <input class="form-control" type="checkbox" name="backup_vocals" class="search-box__checkbox" id="backup_vocals">
+                            <label class="form-control" for="backup_vocals">Backup vocals</label>
                         </details>
-                        <% if (instruments.length > 0) { %>
                             <details>
                                 <summary>Search by instrument:</summary>
-                                    <input type="text" name="search_instrument" placeholder="Search by instrument">
-                                <% for (let instrument of intstruments) { %>
-                                    <input type="checkbox" class="instrument_checkbox search-box__checkbox" name="<%= instrument.name %>" value="<%= instrument.name %>">
-                                    <label for="<%= instrument.name %>"><%= instrument.name %></label>
-                                <% } %> 
+                                    <input class="form-control" type="text" name="instrument" placeholder="Search by instrument">
                             </details>
-                        <% } %>
-                        <% if (genres.length > 0) { %>
                             <details>
                                 <summary>Search by genre:</summary>
-                                <input type="text" name="search_genre" placeholder="Search by genre">
-                                <% for (let genre of genres) { %>
-                                    <input type="checkbox" class="genre_checkbox search-box__checkbox" name="<%= genre.name %>" value="<%= genre.name %>">
-                                    <label for="<%= genre.name %>"><%= genre.name %></label>
-                                <% } %> 
+                                <input class="form-control" type="text" name="genre" placeholder="Search by genre">
                             </details>
-                        <% } %>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button class="search-box__button btn" type="submit" >Search</button>
                     </form>
                 </div>
@@ -65,27 +59,47 @@
                     <% for (let musician of mus) { %>
                         <article class="card_musician">
                             <div class="card_image">
-                                <img src="<%= musician.photo %>" alt="<%= musician.name %>">
+                                <img src="<%= musician.imageUrl %>" alt="<%= musician.musician.name %>">
                             </div>
                             <div class="card_content">
                                 <header class="card_header">
-                                    <h1 class="musician_name">Name: <%= musician.name %></h1>
-                                    <h2 class="musician_instrument">Instrument: <%= musician.instrument %></h3>
+                                    <h1 class="musician_name"><%= musician.musician.first_name + ' ' + musician.musician.last_name %></h1>
+                                    <h2 class="musician_city"><%= musician.musician.location.city %></h4>
                                 </header>
-                                <h3 class="musician_city">City: $<%= musician.city %></h4>
-                                <p class="musician_address">Address: <%= musician.address %></p>
+                                <div class="musician_instrument">
+                                    <p>Instruments: <%= musician.musician.instruments.length > 0 ? "" : "None" %></p>
+                                    <% if (musician.musician.instruments.length > 0) { %>
+                                    <ul>
+                                            <% for (i in musician.musician.instruments) { %>
+                                            <li><%= musician.musician.instruments[i] %></li>
+                                            <% } %>
+                                    </ul>
+                                    <% } %>
+                                </div>
+                                <div class="musician_genre">
+                                    <p>Genres: <%= musician.musician.genres.length > 0 ? "" : "None" %></p>
+                                    <% if (musician.musician.genres.length > 0) {  %>
+                                    <ul>
+                                        <% for (i in musician.musician.genres) { %>
+                                            <li>
+                                                <%= musician.musician.genres[i] %>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                    <% } %>
+                                </div>
                             </div>
                             <div class="card_actions">
-                                    <a href="/musicians/<%= musician._id %>" class="btn">Details</a>
+                                    <a href="/musicians/<%= musician._id %>" class="btn card_actions__button">Details</a>
                                 <% if (isAuthenticated) { %>
-                                    <%- include('../includes/contact.ejs', {musician: musician}) %>
+                                    <%- include('./includes/contact.ejs', {musician: musician}) %>
                                 <% }%>
                             </div>
                         </article>
                     <% } %>
                 </div>
             <% } else { %>
-                <h1>No musicians yet!</h1>
+                <h1>No musicians found</h1>
             <% } %>
             </div>
         </div>

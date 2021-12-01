@@ -94,7 +94,7 @@ app.use(csrfProtection);
 
 app.use((req, res, next) => {
   // Used for user authentication. Can reuse later.
-  // res.locals.isAuthenticated = req.session.isLoggedIn; 
+  res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   next();
 });
