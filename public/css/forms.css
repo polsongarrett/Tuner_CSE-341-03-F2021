@@ -70,7 +70,7 @@ body {
     color: crimson;
   }
   
-  .btn {
+  form .btn {
     background: linear-gradient(#F4EBD9, #F4EBB9);
     padding: 0.8rem 1.5rem;
     text-transform: uppercase; 
