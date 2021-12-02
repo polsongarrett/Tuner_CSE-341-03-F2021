@@ -5,7 +5,7 @@ const router = express.Router();
 
 // router.get('/', tunerController.getIndex);
 
-router.post('/login',tunerController.login);
+router.post('/login',tunerController.postLogin);
 router.get('/login', tunerController.getLogin);
 
 router.post('/signup', tunerController.signup);

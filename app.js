@@ -73,25 +73,6 @@ app.use(
 app.use(csrfProtection); 
 app.use(flash()); // We are using flash for error messaging on the signup page etc.
 
-// Logic for verifying a user. Can be used later 
-//
-// app.use((req, res, next) => {
-//   if (!req.session.user) {
-//     return next();
-//   }
-//   User.findById(req.session.user._id)
-//   .then(user => {
-//     if (!user) {
-//       return next();
-//     }
-//     req.user = user; // Mongoose model user object
-//     next();
-//   })
-//   .catch(err => {
-//     throw new Error(err);
-//   });
-// });
-
 app.use((req, res, next) => {
   // Used for user authentication. Can reuse later.
   res.locals.isAuthenticated = req.session.isLoggedIn;
@@ -99,10 +80,39 @@ app.use((req, res, next) => {
   next();
 });
 
+// // Logic for verifying a user. (Temporarily removed by Matt R.)
+// // The next middleware is super important. It sets up our 'user' from the session so that the user persists across requests.
+// // That way in our controllers admin.js and shop.js files when we call req.user, it knows that we are using the req.user from here which holds the session user.
+// app.use((req, res, next) => {
+//   // throw new Error('Sync Dummy Error'); // used for error testing
+//   if (!req.session.user) { // this gets the user out of the sessions and also says if no req.session.user then just go to the next middleware.
+//     return next(); // we use 'return' so that the code following it will not be executed and next(); will send it to the next middleware.
+//   }
+//   User.findById(req.session.user._id) // we then find the 'user' by '_id' in the database and store the found user in the req object (req.user) a couple lines below.
+//   .then(user => {
+//     // throw new Error('ASync Dummy Error'); // used for error testing.
+//     if (!user) { // in this if we're being extra careful to avoid errors (error handling) and check again, if there's no user object, go to the next middleware.
+//       return next();
+//     }
+//     req.user = user; // we get back a mongoose model user which we store in req.user. This req.user is used in controllers admin.js and shop.js whenever req.user is called.
+//     next(); // we call next so that the incoming requests can continue with the next middleware.
+//   })
+//   // this error won't fire if we don't find a user with the _id, but it will fire for technical issues like if the database is down or
+//   // if the user of this app doesn't have sufficient permissions to execute this action.
+//   // (I used to run this to find errors before applying advanced error handling with 'throw'.) .catch(err => console.log("err from 'findById' middleware defining req.session.user._id in app.js", err));
+//   .catch(err => {
+//     next(new Error(err)); // In asnynchrounous code we use next instead of throw so that this is detected by Express. So, inside of 'promise', 'then' or 'catch' blocks inside of callbacks you have to use 'next'.
+//   });
+// });
+
+
 // TODO: Create and use routes
 //
+// again, order matters. So list 'searchRoutes' second because it is calling our '/' page and that '/' exists in all addresses.
+// We list 'tunerRoutes' third because if there is no leading filter (like we use '/admin' in adminRoutes), every request will go into our searchRoutes
+// and anything not found in searchRoutes will go to tunerRoutes.
+app.use('/admin', adminRoutes); // uses the 'adminRoutes' constant as an object, not a function, to use our admin.js file in the routes folder. I added '/admin' to this statement so that it will attach /admin to the path of the pages in admin.js, this is how we filter routes.
 app.use(searchRoutes);
-app.use(adminRoutes);
 app.use(tunerRoutes);
 app.use(errorController.get404);
 // app.use(shopRoutes);

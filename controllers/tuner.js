@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 const bcrypt = require('bcryptjs');
 
 const { validationResult } = require('express-validator');
@@ -26,42 +28,119 @@ exports.getLogin = (req, res, next) =>
       pageTitle: 'Login',
       path: '/views/auth/login',
       errorMessage: message,
-      error: null,
-      csrfToken: req.csrfToken()
-  });
+      oldInput: { // this is used for making our user input sticky. For 'getLogin' we have the fields blank so they are not rendered on the page.
+        email: '',
+        password: ''
+      },
+      validationErrors: [] // we set an empty array to hold validation errors if they occur.
+    });
 };
 
-exports.login = (req, res, next) =>
-{
-  user.find({email:req.body.email, password: req.body.password}).then(result => {
-    if (result.length > 1) {
-      let error = ["login", "Some error occurred. There are too many people with this username and password"];
-      res.render('auth/login', {
-        pageTitle: 'Login',
-        path: '/views/auth/login',
-        error: error,
-        csrfToken: req.csrfToken()
-      });
-      return;
-    }
-    else if (result.length == 1) {
-      req.session.isLoggedIn = true;
-      res.redirect("/");
-      return;
-    }
-    else {
-      let error = ["login", "Authentication failed"]
-      res.render('auth/login', {
-        pageTitle: 'Login',
-        path: '/views/auth/login',
-        error: error,
-        csrfToken: req.csrfToken()
-      })
-    }
-  }).catch(err => {
-    next(new Error(err));
-  })
-}
+// this is our 'postLogin' function. It get's our login fields from our 'login.ejs. view and sets a header for our cookie.
+exports.postLogin = (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const errors = validationResult(req); // this gathers all the errors collected by this package.
+    // next if statement says if errors is not (!) empty using the isEmpty() function to check, return the res with status 422 (means validation failed) and render login page.
+  if (!errors.isEmpty()) {
+    console.log("This is our errors array from 'postLogin'", errors.array()); // shows us what's in the errors.array()
+  return res.status(422).render('auth/login', { // we return this so the code starting at User.findOne does not execute. // status(422) sends the '422 Unprocessable Entity' code. Means it was unable to process the contained instructions.
+      path: '/login',
+      pageTitle: 'Login',
+      errorMessage: errors.array()[0].msg, // we pull the first item in the array and pull the 'msg' property from it to display our message
+      oldInput: { // this is used for making our user input sticky. For 'postLogin' we have the JS Object filled with the constants defined in 'postLogin'.
+        email: email,
+        password: password
+      },
+      validationErrors: errors.array() // this returns the full array of errors and we can access them with our 'validationErrors' definition.
+    });
+  }
+
+    User.findOne({ email: email }) // We know we will only have one email per user so we use the findOne() function.
+    .then(user => {
+      if (!user) { // if no (!) user is found we redirect them to the login page. But first we flash a message...
+        return res.status(422).render('auth/login', { // we return this so the code starting at User.findOne does not execute. // status(422) sends the '422 Unprocessable Entity' code. Means it was unable to process the contained instructions.
+          path: '/login',
+          pageTitle: 'Login',
+          errorMessage: '<div class="user-message user-message--error"><p>Invalid Email or Password</p></div>', // shows this error message when an error occurs. It contains raw html.
+          oldInput: { // this is used for making our user input sticky. For 'postLogin' we have the JS Object filled with the constants defined in 'postLogin'.
+            email: email,
+            password: password
+          },
+          validationErrors: [] // create an empty array so it just flashes the message saying Invalid Email or Password and doesn't specify which failed. (not as graceful as the signup page)
+        });
+      }
+      // if a user is found we execute the following using bcrypt to match the password.
+      bcrypt
+        .compare(password, user.password)// This compares the entered 'password' with the 'user.password' in the database to see if they match. It returns a promise so we add a .then and .catch block.
+        .then(doMatch => {
+          if (doMatch) {
+            console.log("You have been logged in by the controllers/auth.js 'postLogin' function!");
+            req.session.isLoggedIn = true;  // req the 'session' object which was added by our session middleware. We create a key called 'isLoggedIn' (we can use any name we want) and set it to true.
+            req.session.user = user; // this sets the 'session' user equal to 'user'. By setting the user on the session we share it across all requests.
+            return req.session.save(err => { // We return this to avoid execution of the res.redirect('/login') line follwing this block. This block tells it to save the session before redirecting so that the database is sure to have written the session before redirecting. (this is only required for timing issues where the page rendering depends on the session being written in the database).
+              console.log("if there's an err from postLogin password compare in controllers/auth.js it will be defined: ", err);
+              res.redirect('/'); // we don't return this line becuase it's part of the .save() function.
+            });
+          }
+          return res.status(422).render('auth/login', { // we return this so the code starting at User.findOne does not execute. // status(422) sends the '422 Unprocessable Entity' code. Means it was unable to process the contained instructions.
+            path: '/login',
+            pageTitle: 'Login',
+            errorMessage: '<div class="user-message user-message--error"><p>Invalid Email or Password</p></div>', // shows this error message when an error occurs. It contains raw html.
+            oldInput: { // this is used for making our user input sticky. For 'postLogin' we have the JS Object filled with the constants defined in 'postLogin'.
+              email: email,
+              password: password
+            },
+            validationErrors: [] // create an empty array so it just flashes the message saying Invalid Email or Password and doesn't specify which failed. (not as graceful as the signup page)
+          });
+        })
+        .catch(err => { // on this .catch we don't use the 'newError(err)' because we are redirecting instead of throwing a 500 page.
+          console.log("err from postLogin in controllers/auth.js", err);
+          res.redirect('/login'); // if there is an err then we get redirected back to login instead of throwing a 500 error.
+        });
+      
+    })
+    .catch(err => {
+      console.log("err from postLogin at controllers/auth.js", err)
+      const error = new Error(err);
+      error.httpStatusCode = 500; // we aren't using this line yet but it bascially sets the value for 'httpStatusCode' to 500.
+      return next(error); // when we use next with error called as an argument, Express will skip all middlwares and move right to an error handling middleware (it's found in our app.js).
+    });
+};
+
+// Non-Functioning Login Code -Matt R.
+// exports.login = (req, res, next) =>
+// {
+//   user.find({email:req.body.email, password: req.body.password}).then(result => {
+//     if (result.length > 1) {
+//       let error = ["login", "Some error occurred. There are too many people with this username and password"];
+//       res.render('auth/login', {
+//         pageTitle: 'Login',
+//         path: '/views/auth/login',
+//         error: error,
+//         csrfToken: req.csrfToken()
+//       });
+//       return;
+//     }
+//     else if (result.length == 1) {
+//       req.session.isLoggedIn = true;
+//       res.redirect("/");
+//       return;
+//     }
+//     else {
+//       let error = ["login", "Authentication failed"]
+//       res.render('auth/login', {
+//         pageTitle: 'Login',
+//         path: '/views/auth/login',
+//         error: error,
+//         csrfToken: req.csrfToken()
+//       })
+//     }
+//   }).catch(err => {
+//     next(new Error(err));
+//   })
+// }
 
 // THE FOLLOWING IS STEPHEN'S SIGNUP CODE FOR getSignup and signup
 // exports.getSignup = (req, res, next) => 

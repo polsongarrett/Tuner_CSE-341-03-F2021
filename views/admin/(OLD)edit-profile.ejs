@@ -9,22 +9,23 @@
 <%- include('../includes/navigation.ejs') %>
 
     <main>
-        <h1>Add/Edit Profile</h1>
+        <h1>Add/Edit Product</h1>
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
-        <form class="product-form" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST"> <!-- this determines the submit button action -->
+        <form class="product-form" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST" enctype="multipart/form-data"> <!-- this determines the submit button action. The 'enctype' value says the form will have mixed data, text and binary. -->
             <div class="form-control">
-                <label for="firstName">First Name</label>
-                <input class="<%= validationErrors.find(e => e.param === 'firstName') ? 'invalid' : '' %>" type="text" name="firstName" id="firstName" value="<% if (editing || hasError) { %><%=musician.firstName%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
+                <label for="title">Title</label>
+                <input class="<%= validationErrors.find(e => e.param === 'title') ? 'invalid' : '' %>" type="text" name="title" id="title" value="<% if (editing || hasError) { %><%=product.title%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
             </div>
-            <div class="form-control">
-                <label for="lastName">Last Name</label>
-                <input class="<%= validationErrors.find(e => e.param === 'lastName') ? 'invalid' : '' %>" type="text" name="lastName" id="lastName" value="<% if (editing || hasError) { %><%=musician.lastName%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
-            </div>
-            <div class="form-control">
+         <!-- Block was removed to enable Image uploader. Uncomment it to re-enable Image URL
+                <div class="form-control">
                 <label for="imageUrl">Image URL</label>
                 <input class="<%= validationErrors.find(e => e.param === 'imageUrl') ? 'invalid' : '' %>" type="text" name="imageUrl" id="imageUrl" value="<% if (editing || hasError) { %><%=product.imageUrl%><% } %>">
+            </div> -->
+            <div class="form-control">
+                <label for="image">Image</label>
+                <input type="file" name="image" id="image"> <!-- input type is 'file' which is built-in to the browser to let us pick a file. -->
             </div>
             <div class="form-control">
                 <label for="price">Price</label>

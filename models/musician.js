@@ -14,41 +14,59 @@ const Schema = mongoose.Schema;
 // This is the schema for one of our users. It contains information about who they are,
 // where they play and what instruments they play
 const musician = new Schema({
-    first_name: {
+    firstName: {
         type: String,
         required: true
     },
-    last_name:{
+    lastName:{
         type: String,
         required: true
     },
-    city:{
-        type: String,
-        require: true
-    },
-    lead_vocals: {
+    imageUrl: {
+		type: String,
+		required: true
+	},
+    leadVocals: {
         type: Boolean,
         require: true
     },
-    backup_vocals: {
+    backupVocals: {
         type: Boolean,
         require: true
     },
-    genres: [
-        { genreID: {
-            type: Schema.Types.ObjectId,
-            required: true
-        }}
-    ],
-    instruments: [
-        { instrumentID: {
-            type: Schema.Types.ObjectId,
-            required: true
-        }}
-    ]
+		location: {
+			city: {
+				type: String,
+				require: true
+			},
+			country: {
+				type: String,
+				require: true
+			},
+			longitude: {
+				type: Number,
+				require: true
+			},
+			latitude: {
+				type: Number,
+				require: true
+			}
+		},
+		genres: [{
+			genreName: {
+				type: String,
+				required: true
+			}
+		}],
+		instruments: [{
+			instrumentName: {
+				type: String,
+				required: true
+			}
+		}]
 })
 // Create the model in compass
-musicianTable = mongoose.model("Musicians", musician)
+module.exports = mongoose.model('Musician', musician);
 
 
 // CRUD FUNCTIONS //
