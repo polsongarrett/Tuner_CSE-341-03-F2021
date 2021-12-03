@@ -11,6 +11,7 @@ const flash = require('connect-flash');
 const csrf = require('csurf');
 const dotenv = require('dotenv');
 const multer = require('multer'); // brings in 'multer' which pulls binary data out of mulitipart/form data enabling file uploads. Installed with 'npm install --save multer'.
+const User = require('./models/user'); // brings in our User class from the models/user.js
 
 dotenv.config(); 
 
@@ -109,30 +110,30 @@ app.use((req, res, next) => {
   next();
 });
 
-// // Logic for verifying a user. (Temporarily removed by Matt R.)
-// // The next middleware is super important. It sets up our 'user' from the session so that the user persists across requests.
-// // That way in our controllers admin.js and shop.js files when we call req.user, it knows that we are using the req.user from here which holds the session user.
-// app.use((req, res, next) => {
-//   // throw new Error('Sync Dummy Error'); // used for error testing
-//   if (!req.session.user) { // this gets the user out of the sessions and also says if no req.session.user then just go to the next middleware.
-//     return next(); // we use 'return' so that the code following it will not be executed and next(); will send it to the next middleware.
-//   }
-//   User.findById(req.session.user._id) // we then find the 'user' by '_id' in the database and store the found user in the req object (req.user) a couple lines below.
-//   .then(user => {
-//     // throw new Error('ASync Dummy Error'); // used for error testing.
-//     if (!user) { // in this if we're being extra careful to avoid errors (error handling) and check again, if there's no user object, go to the next middleware.
-//       return next();
-//     }
-//     req.user = user; // we get back a mongoose model user which we store in req.user. This req.user is used in controllers admin.js and shop.js whenever req.user is called.
-//     next(); // we call next so that the incoming requests can continue with the next middleware.
-//   })
-//   // this error won't fire if we don't find a user with the _id, but it will fire for technical issues like if the database is down or
-//   // if the user of this app doesn't have sufficient permissions to execute this action.
-//   // (I used to run this to find errors before applying advanced error handling with 'throw'.) .catch(err => console.log("err from 'findById' middleware defining req.session.user._id in app.js", err));
-//   .catch(err => {
-//     next(new Error(err)); // In asnynchrounous code we use next instead of throw so that this is detected by Express. So, inside of 'promise', 'then' or 'catch' blocks inside of callbacks you have to use 'next'.
-//   });
-// });
+// Logic for verifying a user. (Temporarily removed by Matt R.)
+// The next middleware is super important. It sets up our 'user' from the session so that the user persists across requests.
+// That way in our controllers admin.js and shop.js files when we call req.user, it knows that we are using the req.user from here which holds the session user.
+app.use((req, res, next) => {
+  // throw new Error('Sync Dummy Error'); // used for error testing
+  if (!req.session.user) { // this gets the user out of the sessions and also says if no req.session.user then just go to the next middleware.
+    return next(); // we use 'return' so that the code following it will not be executed and next(); will send it to the next middleware.
+  }
+  User.findById(req.session.user._id) // we then find the 'user' by '_id' in the database and store the found user in the req object (req.user) a couple lines below.
+  .then(user => {
+    // throw new Error('ASync Dummy Error'); // used for error testing.
+    if (!user) { // in this if we're being extra careful to avoid errors (error handling) and check again, if there's no user object, go to the next middleware.
+      return next();
+    }
+    req.user = user; // we get back a mongoose model user which we store in req.user. This req.user is used in controllers admin.js and shop.js whenever req.user is called.
+    next(); // we call next so that the incoming requests can continue with the next middleware.
+  })
+  // this error won't fire if we don't find a user with the _id, but it will fire for technical issues like if the database is down or
+  // if the user of this app doesn't have sufficient permissions to execute this action.
+  // (I used to run this to find errors before applying advanced error handling with 'throw'.) .catch(err => console.log("err from 'findById' middleware defining req.session.user._id in app.js", err));
+  .catch(err => {
+    next(new Error(err)); // In asnynchrounous code we use next instead of throw so that this is detected by Express. So, inside of 'promise', 'then' or 'catch' blocks inside of callbacks you have to use 'next'.
+  });
+});
 
 
 // TODO: Create and use routes
@@ -162,8 +163,8 @@ app.use((error, req, res, next) => {
   // res.redirect('/500'); // We don't want to redirect or we'll have in infinite loop if the error is in a syncrhonous block. Use the following lines.
   res.status(500).render('500', {
     pageTitle: 'Error!',
-    path: '/500'
-    // isAuthenticated: req.session.isLoggedIn // line is not working for some reason
+    path: '/500',
+    isAuthenticated: req.session.isLoggedIn
   });
   console.log("app.js caught this error from somewhere else! ->", error); // we console log the 'error' argument from app.use for troubleshooting.
 });

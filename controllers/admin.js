@@ -93,10 +93,16 @@ exports.postAddProfile = (req, res, next) => {
       imageUrl: imageUrl,
       leadVocals: leadVocals,
       backupVocals: backupVocals,
-      city: city,
-      country: country,
-      genre: genre,
-      instrument: instrument,
+      location: {
+        city: city,
+        country: country
+        },
+      genres: [{
+        genreName: genre
+        }],
+      instruments: [{
+        instrumentName: instrument,
+        }],
       userId: req.user // in mongoose it will look at the req.user and pull the _id from it automatically (req.user is defined in our app.js)
     });
     musician.save().then(result => { // the .save() is called from Mongoose we don't define it. Mongoose also gives us the .then() method. It's not technically a promise anymore.
