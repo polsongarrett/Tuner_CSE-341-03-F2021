@@ -31,6 +31,8 @@ const store = new MongoDBStore({
   collection: 'sessions'
 });
 
+const csrfProtection = csrf();
+
 const Options = {
   useUnifiedTopology: true,
   useNewURLParser: true,
@@ -38,7 +40,6 @@ const Options = {
 };
 
 
-const csrfProtection = csrf();
 
 // the 'fileStorage' const works with Multer which manages file uploads and storing.
 const fileStorage = multer.diskStorage({
@@ -100,7 +101,7 @@ app.use(
   )
 );
 
-app.use(csrfProtection); 
+app.use(csrfProtection); // We now add our Cross-Site Request Forgery (csrf) protection. Must be enabled after the session is set
 app.use(flash()); // We are using flash for error messaging on the signup page etc.
 
 app.use((req, res, next) => {

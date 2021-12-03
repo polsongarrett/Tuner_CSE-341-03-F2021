@@ -24,7 +24,7 @@
             <%- errorMessage %> <!-- here I had to use '-' in front of errorMessage and not the '=' because I am using unescaped HTML in my tuner.js controller to show a link. -->
             <% } %>
         <form class="login-form" action="/login" method="POST" novalidate>
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
+            
             <div class="form-control">
                 <label for="email">E-mail</label>
                 <input type="email" name="email" id="email" value="">
@@ -34,7 +34,7 @@
                 <input class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>" type="password" name="password" id="password" value="<%= oldInput.password %>">
             </div>
             <button class="btn" type="submit">Login</button>
-        <!--   <input type="hidden" name="_csrf" value="<%= csrfToken %>"> <!-- When the button is pressed it passes this csrfToken to allow us to render our next view. -->  
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>"> <!-- When the button is pressed it passes this csrfToken to allow us to render our next view. -->  
         </form>
         <div class="centered">
             <a href="/reset">Reset Password</a>
