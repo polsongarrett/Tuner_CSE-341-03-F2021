@@ -2,6 +2,8 @@
 
 const mongoose = require('mongoose'); // we require the mongoose package to enable our error handling arguments for database related errors (not totally sure on that. Has something to do with enabling 'throw new Error()' ).
 
+const fileHelper = require('../util/file'); // calls our helper file from our util folder which aids in deleting files.
+
 const { validationResult } = require('express-validator'); // brings in 'express-validator' and puts it n the 'validationResult' function.
 
 // we import the class from the models folder, the musician.js file. We use a capital starting character for classes, hence 'Product'.
@@ -22,42 +24,67 @@ exports.getAddProfile = (req, res, next) => {
 };
 
 // this next functions exports 'postAddProduct' to our routes/admin.js file
-exports.postAddProfile
- = (req, res, next) => {
+exports.postAddProfile = (req, res, next) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    const imageUrl = req.body.imageUrl;
+    const image = req.file;
     const leadVocals = req.body.leadVocals;
     const backupVocals = req.body.backupVocals;
     const city = req.body.city;
     const country = req.body.country;
     const genre = req.body.genre;
     const instrument = req.body.instrument;
-    const errors = validationResult(req); // sends a request to 'validationResult' defined above holding our 'express-validation'. Looks for validation errors.
     
-    if (!errors.isEmpty()) { // says look at 'error' which holds 'validationResult(req)', if isEmpty() is not (!) empty, then run this block.
-      console.log("This is our 'postAddMusician errors array:", errors.array());
+    if (!image) {
       return res.status(422).render('admin/edit-profile', { // status(422) sends the '422 Unprocessable Entity' code. Means it was unable to process the contained instructions.
-        pageTitle: 'Add Musician',
+        pageTitle: 'Add Profile',
         path: '/admin/edit-profile',
         editing: false, // we set this to false because we are not editing and don't want to change anything.
         hasError: true,
-        product: {
+        musician: {
           firstName: firstName,
           lastName: lastName,
-          imageUrl: imageUrl,
           leadVocals: leadVocals,
           backupVocals: backupVocals,
           city: city,
           country: country,
           genre: genre,
-          instrument: instrument
+          instrument: instrument,
+          leadVocals: leadVocals,
+          backupVocals: backupVocals
+        },
+        errorMessage: 'Attached file is not an image.', // gets the first element out of an array built from 'errors' which hods data from 'validationResult(req).
+        validationErrors: [] // gets the entire errors.array()
+      });
+    }
+    
+    const errors = validationResult(req); // sends a request to 'validationResult' defined above holding our 'express-validation'. Looks for validation errors.
+    
+    if (!errors.isEmpty()) { // says look at 'error' which holds 'validationResult(req)', if isEmpty() is not (!) empty, then run this block.
+      console.log("This is our 'postAddMusician errors array:", errors.array());
+      return res.status(422).render('admin/edit-profile', { // status(422) sends the '422 Unprocessable Entity' code. Means it was unable to process the contained instructions.
+        pageTitle: 'Add Profile',
+        path: '/admin/edit-profile',
+        editing: false, // we set this to false because we are not editing and don't want to change anything.
+        hasError: true,
+        musician: {
+          firstName: firstName,
+          lastName: lastName,
+          leadVocals: leadVocals,
+          backupVocals: backupVocals,
+          city: city,
+          country: country,
+          genre: genre,
+          instrument: instrument,
+          leadVocals: leadVocals,
+          backupVocals: backupVocals
         },
         errorMessage: errors.array()[0].msg, // gets the first element out of an array built from 'errors' which hods data from 'validationResult(req).
         validationErrors: errors.array() // gets the entire errors.array()
       });
     }
     
+    const imageUrl = image.path; // this finds that path to our images folder on our system
     // next lines create a new 'musician' constant from the Musician class with the musician info in it. This is based on our Mongoose schema values.
     // the 'firstName:' is the key to our schema, and 'firstName' is our value from the 'const title' above.
     const musician = new Musician({
@@ -76,7 +103,7 @@ exports.postAddProfile
       // console.log(result);
       console.log('From controllers/admin.js postAddProfile. It say...CREATED PROFILE!');
     //  res.redirect('/admin/products');  // our old code
-      res.redirect('/views/musician/profile');
+      res.redirect('/profile');
     })
     .catch(err => {
       console.log("err from postAddProfile in controllers/admin.js", err);

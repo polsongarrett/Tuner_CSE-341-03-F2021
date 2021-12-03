@@ -10,6 +10,7 @@ const MongoDBStore = require('connect-mongodb-session')(session); // TODO: Renam
 const flash = require('connect-flash'); 
 const csrf = require('csurf');
 const dotenv = require('dotenv');
+const multer = require('multer'); // brings in 'multer' which pulls binary data out of mulitipart/form data enabling file uploads. Installed with 'npm install --save multer'.
 
 dotenv.config(); 
 
@@ -38,6 +39,33 @@ const Options = {
 
 const csrfProtection = csrf();
 
+// the 'fileStorage' const works with Multer which manages file uploads and storing.
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './public/images'); // this is our path to the 'images' folder
+  },
+  filename: (req, file, cb) => {
+  // used this to troubleshoot the date colon issue.  let date = new Date().toISOString().replace(/:/g,'_');
+  // used to troubleshoot the date variable above.  console.log(date);
+    // NOTE!! ON THE FOLLOWING LINE 'new Date().toISOString()' will put a colon (:) in the filename which Windows does not allow. That is why we add 'replace(/:/g,'_')' which replaces all colons (:) with an underscore.
+    cb(null, new Date().toISOString().replace(/:/g,'_') + '-' + file.originalname); // we have it name the file with the current date as a string and concatenate (+) that to the original filename. The date gives it uniqueness in the case of duplicate files.
+  }
+});
+
+// the 'fileFilter' filters what types of files we will accept.
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg' ||
+    file.mimetype === 'image/gif'
+    ) {
+    cb(null, true); // true to store the file types in the 'if' part of the block
+  } else {
+    cb(null, false); // false if we don't want to store the file which is the else block
+  }  
+};
+
 app.set('view engine', 'ejs'); // change based on engine: pug, hbs, ejs
 app.set('views', 'views');     // default where to find templates
 
@@ -58,6 +86,7 @@ const corsOptions = {
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')); // we use multer as a function () and we tell it the value for 'storage' is 'fileStorage' which is defined above. We then have it look for a 'single' file not multiple. That field is named 'image' which we specify in our 'edit-profile.ejs' view.
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session(
@@ -118,11 +147,26 @@ app.use(errorController.get404);
 // app.use(shopRoutes);
 // app.use(authRoutes);
 
-// app.get('/500', errorController.get500);
-// app.use(errorController.get404);
-// app.use((error, req, res, next) => {
-//   res.redirect('/500');
-// });
+// the following line is used when we have a bigger error like our database is down or we have some other server error. It's called from places in our code where we need to show an error occured.
+app.get('/500', errorController.get500); // calls the 'get500' function from our 'errorController'.
+
+// The following line handles everything that our code and routes aren't programmed to do. It's kind of like a catch-all line. We use 'app.use' to handle all http methods, not just GET or POST.
+// We can use '/' in this line but that's the default anyway so we don't need to use it.
+app.use(errorController.get404);
+
+// the next is a special middleware for errors and has the 'error' argument. It's our Error Handling Middleware.
+// it gets moved to right away when you call 'next' with an 'error' passed to it like this 'next(error)'
+// in our code when you see 'next(error)' this is the middleware it comes to.
+app.use((error, req, res, next) => {
+  // when it gets to this middlware it throws the 500 page instead of the detailed error data I log in the console.
+  // res.redirect('/500'); // We don't want to redirect or we'll have in infinite loop if the error is in a syncrhonous block. Use the following lines.
+  res.status(500).render('500', {
+    pageTitle: 'Error!',
+    path: '/500'
+    // isAuthenticated: req.session.isLoggedIn // line is not working for some reason
+  });
+  console.log("app.js caught this error from somewhere else! ->", error); // we console log the 'error' argument from app.use for troubleshooting.
+});
 
 
 const MONGODB_URL = process.env.MONGODB_KEY || MONGODB_URI;

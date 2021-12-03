@@ -13,7 +13,7 @@
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
-        <form class="product-form" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST"> <!-- this determines the submit button action -->
+        <form class="product-form" action="/admin/<% if (editing) { %>edit-profile<% } else { %>add-profile<% } %>" method="POST" enctype="multipart/form-data"> <!-- this determines the submit button action. The 'enctype' value says the form will have mixed data, text and binary. -->
             <div class="form-control">
                 <label for="firstName">First Name</label>
                 <input class="<%= validationErrors.find(e => e.param === 'firstName') ? 'invalid' : '' %>" type="text" name="firstName" id="firstName" value="<% if (editing || hasError) { %><%=musician.firstName%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
@@ -23,23 +23,49 @@
                 <input class="<%= validationErrors.find(e => e.param === 'lastName') ? 'invalid' : '' %>" type="text" name="lastName" id="lastName" value="<% if (editing || hasError) { %><%=musician.lastName%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
             </div>
             <div class="form-control">
-                <label for="imageUrl">Image URL</label>
-                <input class="<%= validationErrors.find(e => e.param === 'imageUrl') ? 'invalid' : '' %>" type="text" name="imageUrl" id="imageUrl" value="<% if (editing || hasError) { %><%=product.imageUrl%><% } %>">
+                <label for="image">Image</label>
+                <input type="file" name="image" id="image"> <!-- input type is 'file' which is built-in to the browser to let us pick a file. -->
             </div>
             <div class="form-control">
-                <label for="price">Price</label>
-                <input class="<%= validationErrors.find(e => e.param === 'price') ? 'invalid' : '' %>" type="number" name="price" id="price" step="0.01" value="<% if (editing || hasError) { %><%=product.price%><% } %>"> <!-- to enable decimal input use the 'step' property. This on says "increment in 0.01 steps". -->
+                <label for="genre">Music Genre</label>
+                <input class="<%= validationErrors.find(e => e.param === 'genre') ? 'invalid' : '' %>" type="text" name="genre" id="genre" value="<% if (editing || hasError) { %><%=musician.genre%><% } %>">
             </div>
             <div class="form-control">
-                <label for="description">Description</label>
-                <textarea class="<%= validationErrors.find(e => e.param === 'description') ? 'invalid' : '' %>" name="description" id="description" rows="5"><% if (editing || hasError) { %><%=product.description%><% } %></textarea>
+                <label for="instrument">Your Instrument</label>
+                <input class="<%= validationErrors.find(e => e.param === 'instrument') ? 'invalid' : '' %>" type="text" name="instrument" id="instrument" value="<% if (editing || hasError) { %><%=musician.instrument%><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="leadVocals">Lead Vocals</label>
+            </div>
+            <div>
+                <input type="radio" id="yes" name="leadVocals" value="yes">
+                <label for="yes">Yes</label>
+                <input type="radio" id="no" name="leadVocals" value="no">
+                <label for="no">No</label>
+            </div>
+            <div class="form-control">
+                <label for="backupVocals">Backup Vocals</label>
+            </div>
+            <div>
+                <input type="radio" id="yes" name="backupVocals" value="yes">
+                <label for="yes">Yes</label>
+                <input type="radio" id="no" name="backupVocals" value="no">
+                <label for="no">No</label>
+            </div>
+            <div class="form-control">
+                <label for="city">City</label>
+                <input class="<%= validationErrors.find(e => e.param === 'city') ? 'invalid' : '' %>" type="text" name="city" id="city" value="<% if (editing || hasError) { %><%=musician.city%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
+            </div>
+            <div class="form-control">
+                <label for="country">Country</label>
+                <input class="<%= validationErrors.find(e => e.param === 'country') ? 'invalid' : '' %>" type="text" name="country" id="country" value="<% if (editing || hasError) { %><%=musician.country%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
             </div>
             <% if (editing) { %>
-                <input type="hidden" value="<%= product._id %>" name="productId"> <!-- the hidden input gets sent when the submit button is pressed. It is filled with the existing product.id if we are in editing mode.-->
+                <input type="hidden" value="<%= musician._id %>" name="musicianId"> <!-- the hidden input gets sent when the submit button is pressed. It is filled with the existing musician.id if we are in editing mode.-->
             <% } %>
 
             <!-- the following line says, if you're in 'editing' mode display 'Update Product' on the button else display 'Add Product'  on the button. -->
-            <button class="btn" type="submit"> <% if (editing) { %>Update Product<% } else { %>Add Product<% } %> </button>
+            <button class="btn" type="submit"> <% if (editing) { %>Update Profile<% } else { %>Add Profile<% } %> </button>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>"> <!-- When the button is pressed it passes this csrfToken to allow us to render our next view. -->
         </form>
     </main>

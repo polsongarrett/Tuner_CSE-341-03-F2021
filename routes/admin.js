@@ -37,7 +37,7 @@ router.post('/add-profile',
         .trim(), // trims out whitespace
     body('country') // calls our 'body' const above to use the 'express-validator' with the following values.
         .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
-        .isLength({ min: 3 }) // sets the minimum length. Could also set max: length as well.
+        .isLength({ min: 2 }) // sets the minimum length. Could also set max: length as well.
         .trim(), // trims out whitespace
     body('genre') // calls our 'body' const above to use the 'express-validator' with the following values.
         .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
@@ -47,7 +47,13 @@ router.post('/add-profile',
         .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
         .isLength({ min: 3 }) // sets the minimum length. Could also set max: length as well.
         .trim(), // trims out whitespace
-    body('imageUrl').isURL() // validates and sanitizes as a URL. Calls the 'body' const which brings in 'express-validator'.
+    body('leadVocals')
+        .exists()
+        .withMessage('Required: Lead Vocals yes or no?'),
+    body('backupVocals')
+        .exists()
+        .withMessage('Required: Backup Vocals yes or no?')
+
 ],
     isAuth,
     adminController.postAddProfile
