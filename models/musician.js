@@ -22,9 +22,15 @@ const musician = new Schema({
         type: String,
         required: true
     },
-    city:{
-        type: String,
-        require: true
+    location: {
+        city: {
+            type: String,
+            require: true
+        },
+        country: {
+            type: String,
+            require: true
+        }
     },
     lead_vocals: {
         type: Boolean,

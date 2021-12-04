@@ -1,9 +1,9 @@
-const Users = require("../models/user");
+const Musicians = require("../models/musician");
 
 exports.getIndex = (req, res, next) => 
 {
-        Users.find().then(musicians => {
-        
+        Musicians.getMusicians().then(musicians => {
+        console.log(musicians);
         res.render('index', {
             pageTitle: 'Search',
             path: '/',
@@ -52,7 +52,7 @@ exports.postSearch = (req, res, next) =>
         filters["musician.genres"] = { $regex : new RegExp(req.body.genre, "i") };
     }
     console.log(filters);
-        Users.find(filters).then(musicians => {
+        Musicians.getMusicians(filters).then(musicians => {
         
         res.render('index', {
             pageTitle: 'Search',

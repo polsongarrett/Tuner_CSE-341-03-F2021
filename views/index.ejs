@@ -59,30 +59,30 @@
                     <% for (let musician of mus) { %>
                         <article class="card_musician">
                             <div class="card_image">
-                                <img src="<%= musician.imageUrl %>" alt="<%= musician.musician.name %>">
+                                <img src="<%= musician.imageUrl %>" alt="<%= musician.first_name + ' ' + musician.last_name %>">
                             </div>
                             <div class="card_content">
                                 <header class="card_header">
-                                    <h1 class="musician_name"><%= musician.musician.first_name + ' ' + musician.musician.last_name %></h1>
-                                    <h2 class="musician_city"><%= musician.musician.location.city %></h4>
+                                    <h1 class="musician_name"><%= musician.first_name + ' ' + musician.last_name %></h1>
+                                    <h2 class="musician_city"><%= musician.location.city %></h4>
                                 </header>
                                 <div class="musician_instrument">
-                                    <p>Instruments: <%= musician.musician.instruments.length > 0 ? "" : "None" %></p>
-                                    <% if (musician.musician.instruments.length > 0) { %>
+                                    <p>Instruments: <%= musician.instruments.length > 0 ? "" : "None" %></p>
+                                    <% if (musician.instruments.length > 0) { %>
                                     <ul>
-                                            <% for (i in musician.musician.instruments) { %>
-                                            <li><%= musician.musician.instruments[i] %></li>
+                                            <% for (i in musician.instruments) { %>
+                                            <li><%= musician.instruments[i].instrumentName %></li>
                                             <% } %>
                                     </ul>
                                     <% } %>
                                 </div>
                                 <div class="musician_genre">
-                                    <p>Genres: <%= musician.musician.genres.length > 0 ? "" : "None" %></p>
-                                    <% if (musician.musician.genres.length > 0) {  %>
+                                    <p>Genres: <%= musician.genres.length > 0 ? "" : "None" %></p>
+                                    <% if (musician.genres.length > 0) {  %>
                                     <ul>
-                                        <% for (i in musician.musician.genres) { %>
+                                        <% for (i in musician.genres) { %>
                                             <li>
-                                                <%= musician.musician.genres[i] %>
+                                                <%= musician.genres[i] %>
                                             </li>
                                         <% } %>
                                     </ul>
