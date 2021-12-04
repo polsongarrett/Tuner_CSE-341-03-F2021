@@ -109,6 +109,16 @@ exports.postLogin = (req, res, next) => {
     });
 };
 
+// this is our 'postLogout' function. It activates when the Logout button is selected and clears the session.
+exports.postLogout = (req, res, next) => {
+  // "requests" from our "session" module the "destroy()"" function which is provided by the session package we're using.
+  req.session.destroy(err => {
+    console.log("if there's an err from controllers/auth.js 'postLogout', here it is -> ", err); // logs error if we get one.
+    console.log("You have been logged out by the controllers/auth.js 'postLogout' function!");
+    res.redirect('/'); // after destroying the session we are redirected back to the '/' page.
+  }); 
+};
+
 // Non-Functioning Login Code -Matt R.
 // exports.login = (req, res, next) =>
 // {

@@ -13,4 +13,6 @@ router.get('/signup', tunerController.getSignup);
 
 router.get('/profile', tunerController.getProfile);
 
+router.post('/logout', tunerController.postLogout); // has router use a 'post' method to use the 'postLogin' function in the tunerController.
+
 module.exports = router;
