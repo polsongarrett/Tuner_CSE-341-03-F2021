@@ -1,14 +1,5 @@
-body {
-    background-color:  #FBFEF9;
-    font-size: 0.8rem;
-    font-family: sans-serif;
-  }
-  
-  * {
-    outline: 0;
-    border: none;
-  }
-  
+ 
+ 
   main {
     width: auto;    
     display: flex;
@@ -70,7 +61,7 @@ body {
     color: crimson;
   }
   
-  form .btn {
+    form .btn {
     background: linear-gradient(#F4EBD9, #F4EBB9);
     padding: 0.8rem 1.5rem;
     text-transform: uppercase; 
