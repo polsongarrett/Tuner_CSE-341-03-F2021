@@ -31,25 +31,25 @@ exports.postSearch = (req, res, next) =>
     //         "musician.genres": req.body.genre
     // }
     if (req.body.firstName) {
-        filters["musician.firstName"] = { $regex : new RegExp(req.body.firstName, "i") };
+        filters["firstName"] = { $regex : new RegExp(req.body.firstName, "i") };
     }
     if (req.body.lastName) {
-        filters["musician.lastName"] = { $regex : new RegExp(req.body.lastName, "i") };
+        filters["lastName"] = { $regex : new RegExp(req.body.lastName, "i") };
     }
     if (req.body.lead_vocals) {
-        filters["musician.lead_vocals"] = true;
+        filters["lead_vocals"] = true;
     }
     if (req.body.backup_vocals) {
-        filters["musician.backup_vocals"] = true;
+        filters["backup_vocals"] = true;
     }
     if (req.body.city) {
-        filters["musician.location.city"] = { $regex : new RegExp(req.body.city, "i") };
+        filters["location.city"] = { $regex : new RegExp(req.body.city, "i") };
     }
     if (req.body.instrument) {
-        filters["musician.instruments"] = { $regex : new RegExp(req.body.instrument, "i") };
+        filters["instruments"] = { $regex : new RegExp(req.body.instrument, "i") };
     }
     if (req.body.genre) {
-        filters["musician.genres"] = { $regex : new RegExp(req.body.genre, "i") };
+        filters["genres"] = { $regex : new RegExp(req.body.genre, "i") };
     }
     console.log(filters);
         Musicians.getMusicians(filters).then(musicians => {
