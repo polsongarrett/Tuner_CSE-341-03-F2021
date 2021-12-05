@@ -63,7 +63,12 @@ const musician = new Schema({
 				type: String,
 				required: true
 			}
-		}]
+		}],
+        userId: { // We store a userId based on type: which uses the schema Types object called ObjectId. Any object can have in ID so we specify that it is from our 'user' model we made in models/user.js specified on the module.exports line.. 
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+          }
 })
 // Create the model in compass
 module.exports = mongoose.model('Musician', musician);
