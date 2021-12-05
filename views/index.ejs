@@ -27,11 +27,11 @@
                         </details>
                         <details>
                             <summary>Search by Name: </summary>
-                            <label class="form-control" for="first_name">First name: </label>
-                            <input type="text" name="first_name" placeholder="Search by first name">
+                            <label class="form-control" for="firstName">First name: </label>
+                            <input type="text" name="firstName" placeholder="Search by first name">
                             <br>
-                            <label class="form-control" for="last_name">Last name: </label>
-                            <input type="text" name="last_name" placeholder="Search by last name">
+                            <label class="form-control" for="lastName">Last name: </label>
+                            <input type="text" name="lastName" placeholder="Search by last name">
                         </details>
                         <details>
                             <summary>Search for vocals:</summary>
@@ -59,26 +59,26 @@
                     <% for (let musician of mus) { %>
                         <article class="card_musician">
                             <div class="card_image">
-                                <img src="<%= musician.imageUrl %>" alt="<%= musician.first_name + ' ' + musician.last_name %>">
+                                <img src="<%= musician.imageUrl %>" alt="<%= musician.firstName + ' ' + musician.lastName %>">
                             </div>
                             <div class="card_content">
                                 <header class="card_header">
-                                    <h1 class="musician_name"><%= musician.first_name + ' ' + musician.last_name %></h1>
+                                    <h1 class="musician_name"><%= musician.firstName + ' ' + musician.lastName %></h1>
                                     <h2 class="musician_city"><%= musician.location.city %></h4>
                                 </header>
                                 <div class="musician_instrument">
-                                    <p>Instruments: <%= musician.instruments.length > 0 ? "" : "None" %></p>
-                                    <% if (musician.instruments.length > 0) { %>
+                                    <p>Instruments: <%= musician.instruments && musician.instruments.length > 0 ? "" : "None" %></p>
+                                    <% if (musician.instruments && musician.instruments.length > 0) { %>
                                     <ul>
                                             <% for (i in musician.instruments) { %>
-                                            <li><%= musician.instruments[i].instrumentName %></li>
+                                            <li><%= musician.instruments[i] %></li>
                                             <% } %>
                                     </ul>
                                     <% } %>
                                 </div>
                                 <div class="musician_genre">
-                                    <p>Genres: <%= musician.genres.length > 0 ? "" : "None" %></p>
-                                    <% if (musician.genres.length > 0) {  %>
+                                    <p>Genres: <%= musician.genre && musician.genres.length > 0 ? "" : "None" %></p>
+                                    <% if (musician.genre && musician.genres.length > 0) {  %>
                                     <ul>
                                         <% for (i in musician.genres) { %>
                                             <li>

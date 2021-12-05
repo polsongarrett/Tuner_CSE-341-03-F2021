@@ -22,19 +22,19 @@ exports.postSearch = (req, res, next) =>
 {
     let filters = {};
     // let filters = {
-    //         "musician.first_name": req.body.first_name,
-    //         "musician.last_name": req.body.last_name,
+    //         "musician.firstName": req.body.firstName,
+    //         "musician.lastName": req.body.lastName,
     //         "musician.lead_vocals": req.body.lead_vocals,
     //         "musician.backup_vocals": req.body.backup_vocals,
     //         "musician.location.city": req.body.city,
     //         "musician.instruments": req.body.instrument,
     //         "musician.genres": req.body.genre
     // }
-    if (req.body.first_name) {
-        filters["musician.first_name"] = { $regex : new RegExp(req.body.first_name, "i") };
+    if (req.body.firstName) {
+        filters["musician.firstName"] = { $regex : new RegExp(req.body.firstName, "i") };
     }
-    if (req.body.last_name) {
-        filters["musician.last_name"] = { $regex : new RegExp(req.body.last_name, "i") };
+    if (req.body.lastName) {
+        filters["musician.lastName"] = { $regex : new RegExp(req.body.lastName, "i") };
     }
     if (req.body.lead_vocals) {
         filters["musician.lead_vocals"] = true;
