@@ -1,9 +1,10 @@
 
-
 body {
     padding: 0;
     margin: 0;
-
+    background-color:  #FBFEF9;
+    font-size: 1rem;
+    font-family: sans-serif;
 }
 
 main {
@@ -16,6 +17,7 @@ main {
     background-color: #363537;
     padding: 0;
     display: flex;
+    font-size: 0.8rem;
     
 }
 
@@ -46,6 +48,16 @@ main {
   margin: 0 0.6rem;
   padding: 0;
 }
+
+.main-header__item button {
+  color: #363537;
+  background-color: #FBFEF9;
+  padding: 0 0.3rem 0.2rem 0.3rem;
+  margin: 0 0.5rem 0 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 
 .main-header__item a {
   text-decoration: none;

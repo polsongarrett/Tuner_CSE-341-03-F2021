@@ -22,32 +22,42 @@ const musician = new Schema({
         type: String,
         required: true
     },
-    location: {
-        city: {
-            type: String,
-            require: true
-        },
-        state: {
-            type: String
-        },
-        country: {
-            type: String,
-            require: true
-        }
-    },
-    lead_vocals: {
+    imageUrl: {
+		type: String,
+		required: true
+	},
+    leadVocals: {
         type: Boolean,
         require: true
     },
-    backup_vocals: {
+    backupVocals: {
         type: Boolean,
         require: true
     },
-    genres: [String],
-    instruments: [String]
+		location: {
+			city: {
+				type: String,
+				require: true
+			},
+            state: {
+				type: String,
+				require: true
+			},
+			country: {
+				type: String,
+				require: true
+			}
+		},
+		genres: [String],
+		instruments: [String],
+        userId: { // We store a userId based on type: which uses the schema Types object called ObjectId. Any object can have in ID so we specify that it is from our 'user' model we made in models/user.js specified on the module.exports line.. 
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+          }
 })
 // Create the model in compass
-musicianTable = mongoose.model("Musicians", musician)
+module.exports = mongoose.model('Musician', musician);
 
 
 // CRUD FUNCTIONS //
