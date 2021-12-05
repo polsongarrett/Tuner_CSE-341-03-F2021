@@ -317,8 +317,8 @@ exports.getProfile = (req, res, next) =>
         name: "Bill",
         imageUrl: "images/bill-and-guitar.jpg",
         instrument: "Guitar",
-        address: "320 Elm St.",
-        city: "Nashville"
+        city: "Nashville",
+        country: "US"
       }
   });
 };

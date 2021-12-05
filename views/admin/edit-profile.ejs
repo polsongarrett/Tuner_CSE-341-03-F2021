@@ -57,7 +57,11 @@
                 <input class="<%= validationErrors.find(e => e.param === 'city') ? 'invalid' : '' %>" type="text" name="city" id="city" value="<% if (editing || hasError) { %><%=musician.city%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
             </div>
             <div class="form-control">
-                <label for="country">Country</label>
+                <label for="city">State (Use 2-letter Code)</label>
+                <input class="<%= validationErrors.find(e => e.param === 'state') ? 'invalid' : '' %>" type="text" name="state" id="state" value="<% if (editing || hasError) { %><%=musician.state%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
+            </div>
+            <div class="form-control">
+                <label for="country">Country (Use 3-letter Code)</label>
                 <input class="<%= validationErrors.find(e => e.param === 'country') ? 'invalid' : '' %>" type="text" name="country" id="country" value="<% if (editing || hasError) { %><%=musician.country%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
             </div>
             <% if (editing) { %>

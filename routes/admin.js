@@ -35,10 +35,16 @@ router.post('/add-profile',
         .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
         .isLength({ min: 3 }) // sets the minimum length. Could also set max: length as well.
         .trim(), // trims out whitespace
+    body('state') // calls our 'body' const above to use the 'express-validator' with the following values.
+        .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
+        .isLength({ min: 2, max: 2 }) // sets the minimum length. Could also set max: length as well.
+        .trim() // trims out whitespace
+        .withMessage('Use 2-letter State Code'),
     body('country') // calls our 'body' const above to use the 'express-validator' with the following values.
         .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
-        .isLength({ min: 2 }) // sets the minimum length. Could also set max: length as well.
-        .trim(), // trims out whitespace
+        .isLength({ min: 3, max: 3 }) // sets the minimum length. Could also set max: length as well.
+        .trim() // trims out whitespace
+        .withMessage('Use 3-letter Country Code'),
     body('genre') // calls our 'body' const above to use the 'express-validator' with the following values.
         .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
         .isLength({ min: 3 }) // sets the minimum length. Could also set max: length as well.

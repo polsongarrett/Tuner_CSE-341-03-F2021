@@ -31,6 +31,7 @@ exports.postAddProfile = (req, res, next) => {
     const leadVocals = req.body.leadVocals;
     const backupVocals = req.body.backupVocals;
     const city = req.body.city;
+    const state = req.body.state;
     const country = req.body.country;
     const genre = req.body.genre;
     const instrument = req.body.instrument;
@@ -47,6 +48,7 @@ exports.postAddProfile = (req, res, next) => {
           leadVocals: leadVocals,
           backupVocals: backupVocals,
           city: city,
+          state: state,
           country: country,
           genre: genre,
           instrument: instrument,
@@ -73,6 +75,7 @@ exports.postAddProfile = (req, res, next) => {
           leadVocals: leadVocals,
           backupVocals: backupVocals,
           city: city,
+          state: state,
           country: country,
           genre: genre,
           instrument: instrument,
@@ -95,6 +98,7 @@ exports.postAddProfile = (req, res, next) => {
       backupVocals: backupVocals,
       location: {
         city: city,
+        state: state,
         country: country
         },
       genres: [{
