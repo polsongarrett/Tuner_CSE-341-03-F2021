@@ -33,13 +33,13 @@ exports.getLogin = (req, res, next) =>
 
 exports.login = (req, res, next) =>
 {
-  user.find({email:req.body.email, password: req.body.password}).then(result => {
+  User.find({email:req.body.email}).then(result => {
     if (result.length > 1) {
       let error = ["login", "Some error occurred. There are too many people with this username and password"];
       res.render('auth/login', {
         pageTitle: 'Login',
         path: '/views/auth/login',
-        error: error,
+        errorMessage: error,
         csrfToken: req.csrfToken()
       });
       return;

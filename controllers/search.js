@@ -1,9 +1,9 @@
-const Users = require("../models/user");
+const Musicians = require("../models/musician");
 
 exports.getIndex = (req, res, next) => 
 {
-        Users.find().then(musicians => {
-        
+        Musicians.getMusicians().then(musicians => {
+        console.log(musicians);
         res.render('index', {
             pageTitle: 'Search',
             path: '/',
@@ -22,37 +22,37 @@ exports.postSearch = (req, res, next) =>
 {
     let filters = {};
     // let filters = {
-    //         "musician.first_name": req.body.first_name,
-    //         "musician.last_name": req.body.last_name,
+    //         "musician.firstName": req.body.firstName,
+    //         "musician.lastName": req.body.lastName,
     //         "musician.lead_vocals": req.body.lead_vocals,
     //         "musician.backup_vocals": req.body.backup_vocals,
     //         "musician.location.city": req.body.city,
     //         "musician.instruments": req.body.instrument,
     //         "musician.genres": req.body.genre
     // }
-    if (req.body.first_name) {
-        filters["musician.first_name"] = { $regex : new RegExp(req.body.first_name, "i") };
+    if (req.body.firstName) {
+        filters["firstName"] = { $regex : new RegExp(req.body.firstName, "i") };
     }
-    if (req.body.last_name) {
-        filters["musician.last_name"] = { $regex : new RegExp(req.body.last_name, "i") };
+    if (req.body.lastName) {
+        filters["lastName"] = { $regex : new RegExp(req.body.lastName, "i") };
     }
     if (req.body.lead_vocals) {
-        filters["musician.lead_vocals"] = true;
+        filters["lead_vocals"] = true;
     }
     if (req.body.backup_vocals) {
-        filters["musician.backup_vocals"] = true;
+        filters["backup_vocals"] = true;
     }
     if (req.body.city) {
-        filters["musician.location.city"] = { $regex : new RegExp(req.body.city, "i") };
+        filters["location.city"] = { $regex : new RegExp(req.body.city, "i") };
     }
     if (req.body.instrument) {
-        filters["musician.instruments"] = { $regex : new RegExp(req.body.instrument, "i") };
+        filters["instruments"] = { $regex : new RegExp(req.body.instrument, "i") };
     }
     if (req.body.genre) {
-        filters["musician.genres"] = { $regex : new RegExp(req.body.genre, "i") };
+        filters["genres"] = { $regex : new RegExp(req.body.genre, "i") };
     }
     console.log(filters);
-        Users.find(filters).then(musicians => {
+        Musicians.getMusicians(filters).then(musicians => {
         
         res.render('index', {
             pageTitle: 'Search',
