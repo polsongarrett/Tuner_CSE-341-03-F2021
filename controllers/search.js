@@ -2,7 +2,7 @@ const Musicians = require("../models/musician");
 
 exports.getIndex = (req, res, next) => 
 {
-        Musicians.getMusicians().then(musicians => {
+        Musicians.find({}).then(musicians => {
         console.log(musicians);
         res.render('index', {
             pageTitle: 'Search',
@@ -24,8 +24,8 @@ exports.postSearch = (req, res, next) =>
     // let filters = {
     //         "musician.firstName": req.body.firstName,
     //         "musician.lastName": req.body.lastName,
-    //         "musician.lead_vocals": req.body.lead_vocals,
-    //         "musician.backup_vocals": req.body.backup_vocals,
+    //         "musician.leadVocals": req.body.leadVocals,
+    //         "musician.backupVocals": req.body.backupVocals,
     //         "musician.location.city": req.body.city,
     //         "musician.instruments": req.body.instrument,
     //         "musician.genres": req.body.genre
@@ -36,11 +36,11 @@ exports.postSearch = (req, res, next) =>
     if (req.body.lastName) {
         filters["lastName"] = { $regex : new RegExp(req.body.lastName, "i") };
     }
-    if (req.body.lead_vocals) {
-        filters["lead_vocals"] = true;
+    if (req.body.leadVocals) {
+        filters["leadVocals"] = true;
     }
-    if (req.body.backup_vocals) {
-        filters["backup_vocals"] = true;
+    if (req.body.backupVocals) {
+        filters["backupVocals"] = true;
     }
     if (req.body.city) {
         filters["location.city"] = { $regex : new RegExp(req.body.city, "i") };
@@ -52,7 +52,7 @@ exports.postSearch = (req, res, next) =>
         filters["genres"] = { $regex : new RegExp(req.body.genre, "i") };
     }
     console.log(filters);
-        Musicians.getMusicians(filters).then(musicians => {
+        Musicians.find(filters).then(musicians => {
         
         res.render('index', {
             pageTitle: 'Search',
