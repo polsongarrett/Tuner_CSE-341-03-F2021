@@ -46,28 +46,10 @@ const musician = new Schema({
 			country: {
 				type: String,
 				require: true
-			},
-			longitude: {
-				type: Number,
-				require: true
-			},
-			latitude: {
-				type: Number,
-				require: true
 			}
 		},
-		genres: [{
-			genreName: {
-				type: String,
-				required: true
-			}
-		}],
-		instruments: [{
-			instrumentName: {
-				type: String,
-				required: true
-			}
-		}],
+		genres: [String],
+		instruments: [String],
         userId: { // We store a userId based on type: which uses the schema Types object called ObjectId. Any object can have in ID so we specify that it is from our 'user' model we made in models/user.js specified on the module.exports line.. 
             type: Schema.Types.ObjectId,
             ref: 'User',
