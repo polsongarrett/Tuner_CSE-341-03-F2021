@@ -313,12 +313,13 @@ exports.signup = (req, res, next) => {
 
 
 exports.getProfile = (req, res, next) => {
+	console.log("At getProfile");
 	//console.log(req.user);
 	Musicians.find({
 		'userId': req.user._id
 	}).then(results => {
-		console.log("This is getting passes as a musicialn?");
-		console.log(results);
+//		console.log("This is getting passes as a musicialn?");
+//		console.log(results);
 		res.render('musician/profile', {
 			pageTitle: 'Profile',
 			path: '/views/musician/profile',
@@ -327,13 +328,15 @@ exports.getProfile = (req, res, next) => {
 		});
 	}).catch(err => console.log(err));
 };
-/*
-Users.find(
-	{ 
-		'email': "Value" 
-   })
-   .then(results => {
-	   [...Do things with the results here!...]
-	 })
-   .catch(err => console.log(err));
-*/
+
+exports.getOtherProfile = (req, res, next) => {
+	const musicianID=req.params.musicianID;
+	Musicians.findById(musicianID).then(musicguy=>{
+		res.render('musician/profile', {
+			pageTitle: 'Profile',
+			path: '/views/musician/profile',
+			// Obvious placeholder code...
+			musician: musicguy
+		});
+	})
+}

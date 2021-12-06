@@ -12,6 +12,7 @@ router.post('/signup', tunerController.signup);
 router.get('/signup', tunerController.getSignup);
 
 router.get('/profile', tunerController.getProfile);
+router.get('/musicians/:musicianID', tunerController.getOtherProfile);
 
 router.post('/logout', tunerController.postLogout); // has router use a 'post' method to use the 'postLogin' function in the tunerController.
 
