@@ -81,9 +81,11 @@ const searchRoutes = require('./routes/search');
 // const authRoutes = require('./routes/auth');
 
 const corsOptions = {
-  origin: "https://<your_app_name>.herokuapp.com/",
+  origin: "https://cse341-g4.herokuapp.com/",
   optionsSuccessStatus: 200
 };
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.urlencoded({
   extended: false
