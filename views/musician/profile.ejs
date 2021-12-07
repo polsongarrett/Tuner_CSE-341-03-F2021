@@ -32,6 +32,10 @@
                     <h3>State:</h3><p><%= musician.location.state %></p>
                     <h3>Country:</h3><p><%= musician.location.country %></p>
                 </div>
+                <form action="admin/edit-profile" method="post">
+                    <button type="submit">test edit</button>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                </form>
                 
 				<% if (!selfProfile && isAuthenticated) { %>
 					<a href="/message/<%= musician._id %>" class="btn card_actions__button">Contact</a>
