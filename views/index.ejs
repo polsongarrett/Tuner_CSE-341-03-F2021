@@ -77,8 +77,8 @@
                                     <% } %>
                                 </div>
                                 <div class="musician_genre">
-                                    <p>Genres: <%= musician.genre && musician.genres.length > 0 ? "" : "None" %></p>
-                                    <% if (musician.genre && musician.genres.length > 0) {  %>
+                                    <p>Genres: <%= musician.genres && musician.genres.length > 0 ? "" : "None" %></p>
+                                    <% if (musician.genres && musician.genres.length > 0) {  %>
                                     <ul>
                                         <% for (i in musician.genres) { %>
                                             <li>

@@ -332,6 +332,9 @@ exports.getProfile = (req, res, next) => {
 	}).then(results => {
 		//		console.log("This is getting passes as a musicialn?");
 		//		console.log(results);
+		// if (results == null) { // This user doesn't have a musician object yet.
+		// 	return res.redirect('/add-profile');
+		// }
 		res.render('musician/profile', {
 			pageTitle: 'Profile',
 			path: '/views/musician/profile',
