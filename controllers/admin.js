@@ -18,6 +18,7 @@ const {
 
 // this next functions exports 'getAddMusician' to our routes/admin.js file
 exports.getAddProfile = (req, res, next) => {
+  console.log(req.body);
 	// res.render tells router.get to render our 'edit-product.ejs' page. Then it gives it a JavaScript object filled with keynames that have data assigned to them.
 	res.render('admin/edit-profile', {
 		pageTitle: 'Add Profile',
@@ -32,6 +33,7 @@ exports.getAddProfile = (req, res, next) => {
 
 // this next functions exports 'postAddProduct' to our routes/admin.js file
 exports.postAddProfile = (req, res, next) => {
+  console.log(req.body);
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
 	const image = req.file;
@@ -40,8 +42,8 @@ exports.postAddProfile = (req, res, next) => {
 	const city = req.body.city;
 	const state = req.body.state;
 	const country = req.body.country;
-	const genre = req.body.genre;
-	const instrument = req.body.instrument;
+	const genres = req.body.genre;
+	const instruments = req.body.instrument;
 	const bio = req.body.bio;
 
 	if (!image) {
@@ -55,11 +57,13 @@ exports.postAddProfile = (req, res, next) => {
 				lastName: lastName,
 				leadVocals: leadVocals,
 				backupVocals: backupVocals,
-				city: city,
-				state: state,
-				country: country,
-				genre: [genre],
-				instrument: [instrument],
+        location: {
+          city: city,
+          state: state,
+          country: country
+        },
+				genres: [genres],
+				instruments: [instruments],
 				leadVocals: leadVocals,
 				backupVocals: backupVocals,
 				bio: bio
@@ -83,11 +87,13 @@ exports.postAddProfile = (req, res, next) => {
 				lastName: lastName,
 				leadVocals: leadVocals,
 				backupVocals: backupVocals,
-				city: city,
-				state: state,
-				country: country,
-				genre: [genre],
-				instrument: [instrument],
+        location: {
+          city: city,
+          state: state,
+          country: country
+        },
+				genres: [genres],
+				instruments: [instruments],
 				leadVocals: leadVocals,
 				backupVocals: backupVocals,
 				bio: bio
@@ -110,8 +116,8 @@ exports.postAddProfile = (req, res, next) => {
 			state: state,
 			country: country
 		},
-		genres: [genre],
-		instruments: [instrument],
+		genres: [genres],
+		instruments: [instruments],
 		bio: bio,
 		userId: req.user // in mongoose it will look at the req.user and pull the _id from it automatically (req.user is defined in our app.js)
 	});
