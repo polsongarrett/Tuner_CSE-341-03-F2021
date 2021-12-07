@@ -18,11 +18,13 @@
 
             <main class="centered">
                 <div class="welcome">
-                    <h1>Welcome <%= musician.firstName %>!</h1>
-                    <h2><%= musician.firstName%> <%= musician.lastName %>'s Page</h2>
+                    <h1><%= musician.firstName%> <%= musician.lastName %>'s Page</h1>
+                <% if (isAuthenticated) { %>
+                    <h2>Welcome <%= musician.firstName %>!</h2>
+                <% } %>
                 </div>
                 <div class="profile-photo">
-                    <img src="<%= musician.imageUrl %>" alt="<%= musician.name %>">
+                    <img src="<%= musician.imageUrl %>" alt="<%= musician.firstName %> <%= musician.lastName %>">
                 </div>
                 <div class="user-data">
                     <h3>Instrument:</h3><p><%= musician.instruments %></p>
