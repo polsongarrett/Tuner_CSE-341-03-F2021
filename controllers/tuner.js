@@ -352,6 +352,7 @@ exports.getOtherProfile = (req, res, next) => {
 	})
 }
 exports.getProfileByUser = (req, res, next) => {
+	console.log("got to getPBU");
 	const userID=req.params.userID;
 	Musicians.findOne({
 		'userId': userID

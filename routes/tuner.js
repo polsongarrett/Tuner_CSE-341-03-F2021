@@ -13,7 +13,7 @@ router.get('/signup', tunerController.getSignup);
 
 router.get('/profile', tunerController.getProfile);
 router.get('/musicians/:musicianID', tunerController.getOtherProfile);
-router.get('/musician/:userID', tunerController.getOtherProfile);
+router.get('/musician/:userID', tunerController.getProfileByUser);
 router.get('/message/:musicianID', tunerController.getMessageOther);
 router.post('/message', tunerController.postMessageOther);
 
