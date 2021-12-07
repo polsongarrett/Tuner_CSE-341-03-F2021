@@ -11,10 +11,6 @@ const {
 // we import the class from the models folder, the musician.js file. We use a capital starting character for classes, hence 'Product'.
 const Musician = require('../models/musician');
 const User = require('../models/user');
-const {
-	addListener
-} = require('nodemon');
-
 
 // this next functions exports 'getAddMusician' to our routes/admin.js file
 exports.getAddProfile = (req, res, next) => {
