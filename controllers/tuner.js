@@ -13,11 +13,11 @@ const Musicians = require("../models/musician");
 
 const transporter = nodemailer.createTransport(
 	sendgridTransport({
-	  auth: {
-		api_key: process.env.MAIL_API_KEY
-	  }
+		auth: {
+			api_key: process.env.MAIL_API_KEY
+		}
 	})
-  );
+);
 
 
 exports.getIndex = (req, res, next) => {
@@ -325,50 +325,56 @@ exports.signup = (req, res, next) => {
 
 exports.getProfile = (req, res, next) => {
 	console.log("At getProfile");
+	selfProfile = true; //probably should add logic to make see if we're looking at our own profile
 	//console.log(req.user);
 	Musicians.findOne({
 		'userId': req.user._id
 	}).then(results => {
-//		console.log("This is getting passes as a musicialn?");
-//		console.log(results);
+		//		console.log("This is getting passes as a musicialn?");
+		//		console.log(results);
 		res.render('musician/profile', {
 			pageTitle: 'Profile',
 			path: '/views/musician/profile',
 			// Obvious placeholder code...
-			musician: results
+			musician: results,
+			selfProfile: selfProfile
 		});
 	}).catch(err => console.log(err));
 };
 
 exports.getOtherProfile = (req, res, next) => {
-	const musicianID=req.params.musicianID;
-	Musicians.findById(musicianID).then(musicguy=>{
+	const musicianID = req.params.musicianID;
+	selfProfile = false; //probably should add logic to make see if we're looking at our own profile
+	Musicians.findById(musicianID).then(musicguy => {
 		res.render('musician/profile', {
 			pageTitle: 'Profile',
 			path: '/views/musician/profile',
 			// Obvious placeholder code...
-			musician: musicguy
+			musician: musicguy,
+			selfProfile: selfProfile
 		});
 	})
 }
 exports.getProfileByUser = (req, res, next) => {
 	console.log("got to getPBU");
-	const userID=req.params.userID;
+	const userID = req.params.userID;
+	selfProfile = false; //probably should add logic to make see if we're looking at our own profile
 	Musicians.findOne({
 		'userId': userID
-	}).then(musicguy=>{
+	}).then(musicguy => {
 		res.render('musician/profile', {
 			pageTitle: 'Profile',
 			path: '/views/musician/profile',
 			// Obvious placeholder code...
-			musician: musicguy
+			musician: musicguy,
+			selfProfile: selfProfile
 		});
 	})
 }
 exports.getMessageOther = (req, res, next) => {
 	console.log("Get to getMO");
-	const musicianID=req.params.musicianID;
-	Musicians.findById(musicianID).then(musicguy=>{
+	const musicianID = req.params.musicianID;
+	Musicians.findById(musicianID).then(musicguy => {
 		res.render('musician/message', {
 			pageTitle: 'Message',
 			path: '/views/musician/message',
@@ -380,30 +386,29 @@ exports.postMessageOther = (req, res, next) => {
 	console.log("Get to postMO");
 
 	User.findById(req.body.user)
-	.then(user=>{
-		if(!user){
-			//Zoidberg: do something on error here, maybe?
-			return res.redirect('/');
-		}
-		music_id=
-		transporter.sendMail({
-			to:user.email,
-			from: 'noreply@mad-matt.com',
-			subject: `${req.user.firstName} has sent a message on Tuner`,
-			html: `
+		.then(user => {
+			if (!user) {
+				//Zoidberg: do something on error here, maybe?
+				return res.redirect('/');
+			}
+			music_id =
+				transporter.sendMail({
+					to: user.email,
+					from: 'noreply@mad-matt.com',
+					subject: `${req.user.firstName} has sent a message on Tuner`,
+					html: `
 				<p>${req.user.firstName} ${req.user.lastName} has sent you the following message:</p>
 				<br>
 				<pre>${req.body.msg_text}</pre>
 				<br>
 				<p>View ${req.user.firstName}'s profile <a href='https://cse341-g4.herokuapp.com/musician/${req.user._id}'>here</a>.</p'
 			`
-		});
-		res.render('musician/email-success', {
-			pageTitle: 'Message',
-			path: '/views/musician/message'
-		});
-	}
-	)
+				});
+			res.render('musician/email-success', {
+				pageTitle: 'Message',
+				path: '/views/musician/message'
+			});
+		})
 
 }
 exports.getTest = (req, res, next) => {

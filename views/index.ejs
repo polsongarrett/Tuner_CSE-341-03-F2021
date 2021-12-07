@@ -91,9 +91,6 @@
                             </div>
                             <div class="card_actions">
                                     <a href="/musicians/<%= musician._id %>" class="btn card_actions__button">Details</a>
-                                <% if (isAuthenticated) { %>
-                                    <%- include('./includes/contact.ejs', {musician: musician}) %>
-                                <% }%>
                             </div>
                         </article>
                     <% } %>

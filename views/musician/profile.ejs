@@ -30,6 +30,8 @@
                     <h3>Country:</h3><p><%= musician.country %></p>
                 </div>
                 
-
+				<% if (!selfProfile && isAuthenticated) { %>
+					<a href="/message/<%= musician._id %>" class="btn card_actions__button">Contact</a>
+				<% }%>
             </main>
             <%- include('../includes/end.ejs') %>
