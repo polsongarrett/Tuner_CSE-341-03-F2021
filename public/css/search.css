@@ -31,6 +31,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
+    margin: 1rem 1rem 1rem 0;
     justify-content: center;
   }
   
@@ -47,10 +48,14 @@
     height: 100px;
     border: 1px solid #363537;
     margin: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
   
   .card_image img {
-    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
   }
   
   .card_actions {
@@ -67,6 +72,10 @@
       margin-top: 0.5rem;
       overflow-y: scroll;
       height: 110px;
+  }
+
+  .musician_instrument ul, .musician_genre ul {
+    margin: 0;
   }
   
   .card_header .musician_name, .card_header .musician_city {
