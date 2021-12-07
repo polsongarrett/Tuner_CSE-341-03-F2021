@@ -13,7 +13,12 @@ router.get('/signup', tunerController.getSignup);
 
 router.get('/profile', tunerController.getProfile);
 router.get('/musicians/:musicianID', tunerController.getOtherProfile);
+router.get('/musician/:userID', tunerController.getOtherProfile);
+router.get('/message/:musicianID', tunerController.getMessageOther);
+router.post('/message', tunerController.postMessageOther);
 
 router.post('/logout', tunerController.postLogout); // has router use a 'post' method to use the 'postLogin' function in the tunerController.
+
+router.get('/test', tunerController.getTest);
 
 module.exports = router;

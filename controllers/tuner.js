@@ -1,6 +1,8 @@
 const crypto = require('crypto');
 
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const {
 	validationResult
@@ -8,6 +10,15 @@ const {
 
 const User = require("../models/user");
 const Musicians = require("../models/musician");
+
+const transporter = nodemailer.createTransport(
+	sendgridTransport({
+	  auth: {
+		api_key: process.env.MAIL_API_KEY
+	  }
+	})
+  );
+
 
 exports.getIndex = (req, res, next) => {
 	res.render('index', {
@@ -315,7 +326,7 @@ exports.signup = (req, res, next) => {
 exports.getProfile = (req, res, next) => {
 	console.log("At getProfile");
 	//console.log(req.user);
-	Musicians.find({
+	Musicians.findOne({
 		'userId': req.user._id
 	}).then(results => {
 //		console.log("This is getting passes as a musicialn?");
@@ -324,7 +335,7 @@ exports.getProfile = (req, res, next) => {
 			pageTitle: 'Profile',
 			path: '/views/musician/profile',
 			// Obvious placeholder code...
-			musician: results[0]
+			musician: results
 		});
 	}).catch(err => console.log(err));
 };
@@ -339,4 +350,61 @@ exports.getOtherProfile = (req, res, next) => {
 			musician: musicguy
 		});
 	})
+}
+exports.getProfileByUser = (req, res, next) => {
+	const userID=req.params.userID;
+	Musicians.findOne({
+		'userId': userID
+	}).then(musicguy=>{
+		res.render('musician/profile', {
+			pageTitle: 'Profile',
+			path: '/views/musician/profile',
+			// Obvious placeholder code...
+			musician: musicguy
+		});
+	})
+}
+exports.getMessageOther = (req, res, next) => {
+	console.log("Get to getMO");
+	const musicianID=req.params.musicianID;
+	Musicians.findById(musicianID).then(musicguy=>{
+		res.render('musician/message', {
+			pageTitle: 'Message',
+			path: '/views/musician/message',
+			musician: musicguy
+		});
+	})
+}
+exports.postMessageOther = (req, res, next) => {
+	console.log("Get to postMO");
+
+	User.findById(req.body.user)
+	.then(user=>{
+		if(!user){
+			//Zoidberg: do something on error here, maybe?
+			return res.redirect('/');
+		}
+		music_id=
+		transporter.sendMail({
+			to:user.email,
+			from: 'noreply@mad-matt.com',
+			subject: `${req.user.firstName} has sent a message on Tuner`,
+			html: `
+				<p>${req.user.firstName} ${req.user.lastName} has sent you the following message:</p>
+				<br>
+				<pre>${req.body.msg_text}</pre>
+				<br>
+				<p>View ${req.user.firstName}'s profile <a href='https://cse341-g4.herokuapp.com/musician/${req.user._id}'>here</a>.</p'
+			`
+		});
+		res.render('musician/email-success', {
+			pageTitle: 'Message',
+			path: '/views/musician/message'
+		});
+	}
+	)
+
+}
+exports.getTest = (req, res, next) => {
+	//console.log(image.path);
 }
