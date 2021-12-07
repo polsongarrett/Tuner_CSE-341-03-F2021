@@ -14,47 +14,48 @@ const Schema = mongoose.Schema;
 // This is the schema for one of our users. It contains information about who they are,
 // where they play and what instruments they play
 const musician = new Schema({
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName:{
-        type: String,
-        required: true
-    },
-    imageUrl: {
+	firstName: {
 		type: String,
 		required: true
 	},
-    leadVocals: {
-        type: Boolean,
-        require: true
-    },
-    backupVocals: {
-        type: Boolean,
-        require: true
-    },
-		location: {
-			city: {
-				type: String,
-				require: true
-			},
-            state: {
-				type: String,
-				require: true
-			},
-			country: {
-				type: String,
-				require: true
-			}
+	lastName: {
+		type: String,
+		required: true
+	},
+	imageUrl: {
+		type: String,
+		required: true
+	},
+	leadVocals: {
+		type: Boolean,
+		require: true
+	},
+	backupVocals: {
+		type: Boolean,
+		require: true
+	},
+	location: {
+		city: {
+			type: String,
+			require: true
 		},
-		genres: [String],
-		instruments: [String],
-        userId: { // We store a userId based on type: which uses the schema Types object called ObjectId. Any object can have in ID so we specify that it is from our 'user' model we made in models/user.js specified on the module.exports line.. 
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-          }
+		state: {
+			type: String,
+			require: true
+		},
+		country: {
+			type: String,
+			require: true
+		}
+	},
+	genres: [String],
+	instruments: [String],
+	userId: { // We store a userId based on type: which uses the schema Types object called ObjectId. Any object can have in ID so we specify that it is from our 'user' model we made in models/user.js specified on the module.exports line.. 
+		type: Schema.Types.ObjectId,
+		ref: 'User',
+		required: true
+	},
+	bio: [String]
 })
 // Create the model in compass
 module.exports = mongoose.model('Musician', musician);
@@ -67,64 +68,66 @@ module.exports = mongoose.model('Musician', musician);
 // This function mostly exists to be used when the user is created. Thus 'add user' in
 // in user.js calls this function
 const createMusician = (musician) => {
-    let insert = new musicianTable({
-        first_name: musician.first_name,
-        last_name: musician.last_name,
-        city: musician.city,
-        lead_vocals: musician.lead_vocals,
-        backup_vocals: musician.backup_vocals,
-        genres: musician.genres,
-        instruments: musician.instruments
-    })
-    
-    // set up .then and .catch
-    return new Promise((resolve, reject) => {
-        insert.save().then(result => {
-            resolve(result);
-        }).catch(err => {
-            reject(err)
-        })
-    })
+	let insert = new musicianTable({
+		first_name: musician.first_name,
+		last_name: musician.last_name,
+		city: musician.city,
+		lead_vocals: musician.lead_vocals,
+		backup_vocals: musician.backup_vocals,
+		genres: musician.genres,
+		instruments: musician.instruments
+	})
+
+	// set up .then and .catch
+	return new Promise((resolve, reject) => {
+		insert.save().then(result => {
+			resolve(result);
+		}).catch(err => {
+			reject(err)
+		})
+	})
 }
 
 // GET MUSICIAN
 // takes a filter for a musician and returns the first musician from the database that matches
 const getMusician = (filter) => {
-    // set up .then and .catch
-    return new Promise((resolve, reject) => {
-        musicianTable.findOne(filter).then((result) => {
-            resolve(result)
-        })
-        .catch(err => {
-            reject(err)
-        });
-    });
+	// set up .then and .catch
+	return new Promise((resolve, reject) => {
+		musicianTable.findOne(filter).then((result) => {
+				resolve(result)
+			})
+			.catch(err => {
+				reject(err)
+			});
+	});
 };
 
 // GET MUSICIANS
 // takes a filter and returns all of the musician data that matches it
 const getMusicians = (filter) => {
-    return new Promise((resolve, reject) => {
-        musicianTable.find(filter).then((result) => {
-            resolve(result)
-        })
-        .catch(err => {
-            reject(err)
-        })
-    });
+	return new Promise((resolve, reject) => {
+		musicianTable.find(filter).then((result) => {
+				resolve(result)
+			})
+			.catch(err => {
+				reject(err)
+			})
+	});
 };
 
 // UPDATE MUSICIAN
 // takes a musician object that matches the schema and updates that musician object
 const updateMusician = (musician) => {
-    // nothing to return, so we will just use reject
-    return new Promise((resolve, reject) => {
-        musicianTable.findOneAndUpdate({id: musician.id}, musician).error((err) => {
-            reject(err);
-        });
-        
-        resolve();
-    });
+	// nothing to return, so we will just use reject
+	return new Promise((resolve, reject) => {
+		musicianTable.findOneAndUpdate({
+			id: musician.id
+		}, musician).error((err) => {
+			reject(err);
+		});
+
+		resolve();
+	});
 };
 
 // REMOVE MUSICIAN
@@ -132,14 +135,16 @@ const updateMusician = (musician) => {
 // function is intended to be used when a user is deleted. Thus, removeUser in
 // user.js calls this function.
 const removeMusician = (id) => {
-    // nothing to return, so we will just use reject
-    return new Promise((resolve, reject) => {
-        musicianTable.findByIdAndDelete({id: id}).error((err) => {
-            reject(err);
-        });
+	// nothing to return, so we will just use reject
+	return new Promise((resolve, reject) => {
+		musicianTable.findByIdAndDelete({
+			id: id
+		}).error((err) => {
+			reject(err);
+		});
 
-        resolve();
-    });
+		resolve();
+	});
 };
 
 //export functions

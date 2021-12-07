@@ -9,7 +9,7 @@
 <%- include('../includes/navigation.ejs') %>
 
     <main>
-        <h1>Add/Edit Profile</h1>
+        <h1><% if (editing) { %>Update Profile<% } else { %>Add Profile<% } %></h1>
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
@@ -24,45 +24,51 @@
             </div>
             <div class="form-control">
                 <label for="image">Image</label>
+				<% if (editing || hasError) { %><img src="<%= musician.imageUrl %>" alt="<%= musician.firstName %> <%= musician.lastName %>"><%}%>
                 <input type="file" name="image" id="image"> <!-- input type is 'file' which is built-in to the browser to let us pick a file. -->
             </div>
             <div class="form-control">
-                <label for="genre">Music Genre</label>
-                <input class="<%= validationErrors.find(e => e.param === 'genre') ? 'invalid' : '' %>" type="text" name="genre" id="genre" value="<% if (editing || hasError) { %><%=musician.genre%><% } %>">
+                <label for="genre">Music Genres</label>
+                <input class="<%= validationErrors.find(e => e.param === 'genre') ? 'invalid' : '' %>" type="text" name="genre" id="genre" value="<% if (editing || hasError) { %><% for (var i = 0; i < musician.genres.length; i++) {%><%= musician.genres[i]%><% if (i<musician.genres.length-1){%><%= ", "%><% }}} %>">
             </div>
             <div class="form-control">
                 <label for="instrument">Your Instrument</label>
-                <input class="<%= validationErrors.find(e => e.param === 'instrument') ? 'invalid' : '' %>" type="text" name="instrument" id="instrument" value="<% if (editing || hasError) { %><%=musician.instrument%><% } %>">
+                <input class="<%= validationErrors.find(e => e.param === 'instrument') ? 'invalid' : '' %>" type="text" name="instrument" id="instrument" value="<% if (editing || hasError) { %><% for (var i = 0; i < musician.instruments.length; i++) {%><%= musician.instruments[i]%><% if (i<musician.instruments.length-1){%><%= ", "%><% }}} %>">
             </div>
             <div class="form-control">
                 <label for="leadVocals">Lead Vocals</label>
             </div>
             <div>
-                <input type="radio" id="yes" name="leadVocals" value="yes">
+                <input type="radio" id="yes" name="leadVocals" value="yes" <% if (musician.leadVocals) {%><%= "checked"%><%}%>>
                 <label for="yes">Yes</label>
-                <input type="radio" id="no" name="leadVocals" value="no">
+                <input type="radio" id="no" name="leadVocals" value="no" <% if (!musician.leadVocals) {%><%= "checked"%><%}%>>
                 <label for="no">No</label>
             </div>
             <div class="form-control">
                 <label for="backupVocals">Backup Vocals</label>
             </div>
             <div>
-                <input type="radio" id="yes" name="backupVocals" value="yes">
+                <input type="radio" id="yes" name="backupVocals" value="yes" <% if (musician.backupVocals) {%><%= "checked"%><%}%>>
                 <label for="yes">Yes</label>
-                <input type="radio" id="no" name="backupVocals" value="no">
+                <input type="radio" id="no" name="backupVocals" value="no" <% if (!musician.backupVocals) {%><%= "checked"%><%}%>>
                 <label for="no">No</label>
             </div>
             <div class="form-control">
                 <label for="city">City</label>
-                <input class="<%= validationErrors.find(e => e.param === 'city') ? 'invalid' : '' %>" type="text" name="city" id="city" value="<% if (editing || hasError) { %><%=musician.city%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
+                <input class="<%= validationErrors.find(e => e.param === 'city') ? 'invalid' : '' %>" type="text" name="city" id="city" value="<% if (editing || hasError) { %><%=musician.location.city%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
             </div>
             <div class="form-control">
                 <label for="city">State (Use 2-letter Code)</label>
-                <input class="<%= validationErrors.find(e => e.param === 'state') ? 'invalid' : '' %>" type="text" name="state" id="state" value="<% if (editing || hasError) { %><%=musician.state%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
+                <input class="<%= validationErrors.find(e => e.param === 'state') ? 'invalid' : '' %>" type="text" name="state" id="state" value="<% if (editing || hasError) { %><%=musician.location.state%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
             </div>
             <div class="form-control">
                 <label for="country">Country (Use 3-letter Code)</label>
-                <input class="<%= validationErrors.find(e => e.param === 'country') ? 'invalid' : '' %>" type="text" name="country" id="country" value="<% if (editing || hasError) { %><%=musician.country%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
+                <input class="<%= validationErrors.find(e => e.param === 'country') ? 'invalid' : '' %>" type="text" name="country" id="country" value="<% if (editing || hasError) { %><%=musician.location.country%><% } %>"> <!-- in the 'value' field it says if 'editing' OR (||) 'hasError' -->
+            </div>
+            </div>
+            <div class="form-control">
+                <label for="bio">Bio</label>
+                <textarea name="bio" id="bio"><% if (editing || hasError) { %><%=musician.bio%><% } %></textarea>
             </div>
             <% if (editing) { %>
                 <input type="hidden" value="<%= musician._id %>" name="musicianId"> <!-- the hidden input gets sent when the submit button is pressed. It is filled with the existing musician.id if we are in editing mode.-->

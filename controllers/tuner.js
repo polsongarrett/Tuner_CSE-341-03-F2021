@@ -324,7 +324,7 @@ exports.signup = (req, res, next) => {
 
 
 exports.getProfile = (req, res, next) => {
-	// console.log("At getProfile");
+	console.log("At getProfile");
 	selfProfile = true; //probably should add logic to make see if we're looking at our own profile
 	// console.log(req.user);
 	Musicians.findOne({

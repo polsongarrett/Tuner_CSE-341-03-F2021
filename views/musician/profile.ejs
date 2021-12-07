@@ -9,36 +9,42 @@
     <title><%= pageTitle %></title>
 -->
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/profile.css">
-    <link rel="stylesheet" href="/css/main.css">
-    </head>
+<link rel="stylesheet" href="/css/profile.css">
+<link rel="stylesheet" href="/css/main.css">
+</head>
 
-    <body>
-        <%- include('../includes/navigation.ejs') %>
+<body>
+	<%- include('../includes/navigation.ejs') %>
 
-            <main class="centered">
-                <div class="welcome">
-                    <h1><%= musician.firstName%> <%= musician.lastName %>'s Page</h1>
-                <% if (isAuthenticated) { %>
-                    <h2>Welcome <%= musician.firstName %>!</h2>
-                <% } %>
-                </div>
-                <div class="profile-photo">
-                    <img src="<%= musician.imageUrl %>" alt="<%= musician.firstName %> <%= musician.lastName %>">
-                </div>
-                <div class="user-data">
-                    <h3>Instrument:</h3><p><%= musician.instruments %></p>
-                    <h3>City:</h3><p><%= musician.location.city %></p>
-                    <h3>State:</h3><p><%= musician.location.state %></p>
-                    <h3>Country:</h3><p><%= musician.location.country %></p>
-                </div>
-                <form action="admin/edit-profile" method="post">
-                    <button type="submit">test edit</button>
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                </form>
-                
-				<% if (!selfProfile && isAuthenticated) { %>
-					<a href="/message/<%= musician._id %>" class="btn card_actions__button">Contact</a>
-				<% }%>
-            </main>
-            <%- include('../includes/end.ejs') %>
+	<main class="centered">
+		<div class="welcome">
+			<h1><%= musician.firstName%> <%= musician.lastName %>'s Page</h1>
+			<% if (isAuthenticated) { %>
+			<h2>Welcome <%= musician.firstName %>!</h2>
+			<% } %>
+		</div>
+		<div class="profile-photo">
+			<img src="<%= musician.imageUrl %>" alt="<%= musician.firstName %> <%= musician.lastName %>">
+		</div>
+		<div class="user-data">
+			<h3>Instrument:</h3>
+			<% for (var i = 0; i < musician.instruments.length; i++) {%><%= musician.instruments[i]%><% if (i<musician.instruments.length-1){%><%= ", "%><% }} %>
+			<p><% if(musician.leadVocals||musician.backupVocals){%>Willing<%}else{%>Not willing<%}%> to do <% if (musician.leadVocals) {%>Lead <%} if(musician.leadVocals&&musician.backupVocals){%>and <%} if (musician.backupVocals) {%>Back up<%}%> vocals.</p>
+			
+			<h3>Genres:</h3>
+			<% for (var i = 0; i < musician.genres.length; i++) {%><%= musician.genres[i]%><% if (i<musician.genres.length-1){%><%= ", "%><% }} %>
+			<h3>Location:</h3>
+			<p><%= musician.location.city %>, <%= musician.location.state %>, <%= musician.location.country %></p>
+			<h3>Bio:</h3>
+			<pre><%= musician.bio %></pre>
+		</div>
+
+		<% if (isAuthenticated) { %>
+		<% if (selfProfile) { %>
+		<a href="admin/edit-profile %>" class="btn card_actions__button">Edit Profile</a>
+		<% }else {%>
+		<a href="/message/<%= musician._id %>" class="btn card_actions__button">Contact</a>
+		<% }%>
+		<% }%>
+	</main>
+	<%- include('../includes/end.ejs') %>

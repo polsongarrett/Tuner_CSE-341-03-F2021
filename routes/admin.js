@@ -62,6 +62,7 @@ router.post('/add-profile',
     adminController.postAddProfile
     );
 
+router.get('/edit-profile', adminController.getEditProfile);
 router.post('/edit-profile', adminController.postEditProfile);
 
 
