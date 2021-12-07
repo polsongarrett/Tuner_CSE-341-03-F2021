@@ -386,14 +386,13 @@ exports.postMessageOther = (req, res, next) => {
 	console.log("Get to postMO");
 
 	User.findById(req.body.user)
-		.then(user => {
-			if (!user) {
+		.then(target => {
+			if (!target) {
 				//Zoidberg: do something on error here, maybe?
 				return res.redirect('/');
 			}
-			music_id =
 				transporter.sendMail({
-					to: user.email,
+					to: target.email,
 					from: 'noreply@mad-matt.com',
 					subject: `${req.user.firstName} has sent a message on Tuner`,
 					html: `
