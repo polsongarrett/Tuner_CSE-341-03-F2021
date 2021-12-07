@@ -89,7 +89,12 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')); // we use multer as a function () and we tell it the value for 'storage' is 'fileStorage' which is defined above. We then have it look for a 'single' file not multiple. That field is named 'image' which we specify in our 'edit-profile.ejs' view.
+
+// The following line allows us to serve static files from our 'public' folder. It's called 'static' and it ships with express. It ultimately gives the 'public' folder read only access.
+// we basically call 'static' from 'express' then we use 'path.join' to show a path to our 'public' folder. '__dirname' is the root folder of our project and then it finds the 'public' folder in there.
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'images'))); // Line says "If we have a request that starts with '/images' THEN serve it using the 'static' method." We use the 'static' method as described in the notes above to make our 'images' folder a public folder that people can read-only access.
+
 app.use(
   session(
     {

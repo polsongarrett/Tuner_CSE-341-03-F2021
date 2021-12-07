@@ -87,7 +87,8 @@ exports.postAddProfile = (req, res, next) => {
       });
     }
     
-    const imageUrl = image.path; // this finds that path to our images folder on our system
+    const removeOnUrl = "public"; // to be removed from out path
+    const imageUrl = image.path.replace(removeOnUrl, ''); // this finds that path to our images folder on our system
     // next lines create a new 'musician' constant from the Musician class with the musician info in it. This is based on our Mongoose schema values.
     // the 'firstName:' is the key to our schema, and 'firstName' is our value from the 'const title' above.
     const musician = new Musician({
