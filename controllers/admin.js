@@ -58,8 +58,8 @@ exports.postAddProfile = (req, res, next) => {
 				city: city,
 				state: state,
 				country: country,
-				genre: genre,
-				instrument: instrument,
+				genre: [genre],
+				instrument: [instrument],
 				leadVocals: leadVocals,
 				backupVocals: backupVocals,
 				bio: bio
@@ -86,8 +86,8 @@ exports.postAddProfile = (req, res, next) => {
 				city: city,
 				state: state,
 				country: country,
-				genre: genre,
-				instrument: instrument,
+				genre: [genre],
+				instrument: [instrument],
 				leadVocals: leadVocals,
 				backupVocals: backupVocals,
 				bio: bio
