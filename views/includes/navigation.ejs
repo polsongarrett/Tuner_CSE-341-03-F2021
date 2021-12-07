@@ -68,7 +68,7 @@
 			<a class="<%= path === '/login' ? 'active' : '' %>" href="/signup">Login</a>
 		</li>
 		<% } else { %>
-		<li class="main-header__item">
+		<li class="mobile-nav__item">
 			<!-- on this form the action="/logout". That is a call to routes/auth.js "router.post /logout" to call the authController.postLogout function -->
 			<form action="/logout" method="post">
 				<input type="hidden" name="_csrf" value="<%= csrfToken %>"> <!-- When the Logout button is pressed it passes this csrfToken to allow us to render our next view. -->
