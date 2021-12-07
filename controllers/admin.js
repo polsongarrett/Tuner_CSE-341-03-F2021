@@ -25,7 +25,8 @@ exports.getAddProfile = (req, res, next) => {
 		editing: false, // this sets the editing parameter to 'false' which means you will not be in 'editMode' as defined in getEditProduct so the 'Add Product' button is then displayed.
 		hasError: false,
 		errorMessage: null,
-		validationErrors: [] // we start with an empty array when we 'get' the AddProduct page.
+		validationErrors: [], // we start with an empty array when we 'get' the AddProduct page.
+    musician: ""
 	});
 };
 
