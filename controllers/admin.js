@@ -179,7 +179,7 @@ exports.postEditProfile = (req, res, next) => {
 	Musician.findByIdAndUpdate(req.body.musicianId, {
 			firstName: updatedFirstName,
 			lastName: updatedLastName,
-			imageUrl: updatedImage,
+			imageUrl: imageUrl,
 			location: {
 				city: updatedCity,
 				state: updatedState,
