@@ -70,6 +70,7 @@
 
   .card_content {
       margin-top: 0.5rem;
+      overflow-y: hidden;
       height: 110px;
   }
 
