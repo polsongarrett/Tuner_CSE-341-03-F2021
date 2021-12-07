@@ -19,15 +19,16 @@
             <main class="centered">
                 <div class="welcome">
                     <h1>Welcome <%= musician.firstName %>!</h1>
-                    <h2><%= musician.lastName %>'s Page</h2>
+                    <h2><%= musician.firstName%> <%= musician.lastName %>'s Page</h2>
                 </div>
                 <div class="profile-photo">
                     <img src="<%= musician.imageUrl %>" alt="<%= musician.name %>">
                 </div>
                 <div class="user-data">
                     <h3>Instrument:</h3><p><%= musician.instruments %></p>
-                    <h3>City:</h3><p><%= musician.city %></p>
-                    <h3>Country:</h3><p><%= musician.country %></p>
+                    <h3>City:</h3><p><%= musician.location.city %></p>
+                    <h3>State:</h3><p><%= musician.location.state %></p>
+                    <h3>Country:</h3><p><%= musician.location.country %></p>
                 </div>
                 
 
