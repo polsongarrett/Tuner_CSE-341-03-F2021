@@ -172,9 +172,11 @@ exports.postEditProfile = (req, res, next) => {
 		updatedBackupVocals = true;
 	else
 		updatedBackupVocals = false;
-
-		const imageUrl = updatedImage.path.replace('public', '');
-		
+		let imageUrl
+	if(updatedImage!=null)
+	{
+		imageUrl = updatedImage.path.replace('public', '');
+	}	
 
 	Musician.findByIdAndUpdate(req.body.musicianId, {
 			firstName: updatedFirstName,
