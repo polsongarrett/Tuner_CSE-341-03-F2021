@@ -3,7 +3,6 @@ const Musicians = require("../models/musician");
 exports.getIndex = (req, res, next) => 
 {
         Musicians.find({}).then(musicians => {
-        console.log(musicians);
         res.render('index', {
             pageTitle: 'Search',
             path: '/',
@@ -51,7 +50,7 @@ exports.postSearch = (req, res, next) =>
     if (req.body.genre) {
         filters["genres"] = { $regex : new RegExp(req.body.genre, "i") };
     }
-    console.log(filters);
+    // console.log(filters);
         Musicians.find(filters).then(musicians => {
         
         res.render('index', {

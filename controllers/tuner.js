@@ -324,20 +324,20 @@ exports.signup = (req, res, next) => {
 
 
 exports.getProfile = (req, res, next) => {
-	console.log("At getProfile");
+	// console.log("At getProfile");
 	selfProfile = true; //probably should add logic to make see if we're looking at our own profile
-	//console.log(req.user);
+	// console.log(req.user);
 	Musicians.findOne({
 		'userId': req.user._id
 	}).then(results => {
-		//		console.log("This is getting passes as a musicialn?");
-		//		console.log(results);
-		// if (results == null) { // This user doesn't have a musician object yet.
-		// 	return res.redirect('/add-profile');
-		// }
+				// console.log("This is getting passes as a musicialn?");
+				// console.log(results);
+		if (results == null) { // This user doesn't have a musician object yet.
+			return res.redirect('/admin/add-profile');
+		}
 		res.render('musician/profile', {
 			pageTitle: 'Profile',
-			path: '/views/musician/profile',
+			path: '/profile',
 			// Obvious placeholder code...
 			musician: results,
 			selfProfile: selfProfile
@@ -351,7 +351,7 @@ exports.getOtherProfile = (req, res, next) => {
 	Musicians.findById(musicianID).then(musicguy => {
 		res.render('musician/profile', {
 			pageTitle: 'Profile',
-			path: '/views/musician/profile',
+			path: '/profile',
 			// Obvious placeholder code...
 			musician: musicguy,
 			selfProfile: selfProfile

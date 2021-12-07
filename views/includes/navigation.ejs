@@ -18,9 +18,9 @@
 			<li class="main-header__item">
 				<a class="<%= path === '/profile' ? 'active' : '' %>" href="/profile">Profile</a>
 			</li>
-            <li class="main-header__item">
+            <!-- <li class="main-header__item">
                 <a class="<%= path === '/admin/add-profile' ? 'active' : '' %>" href="/admin/add-profile">Add Profile</a>
-            </li>
+            </li> -->
 			<% } %>
 			<% if (!isAuthenticated) { %> <!-- says "only show the following if not (!) Authenticated" -->
             <li class="main-header__item">
@@ -56,9 +56,9 @@
 		<li class="mobile-nav__item">
 			<a class="<%= path === '/profile' ? 'active' : '' %>" href="/profile">Profile</a>
 		</li>
-		<li class="main-header__item">
+		<!-- <li class="main-header__item">
 			<a class="<%= path === '/admin/add-profile' ? 'active' : '' %>" href="/admin/add-profile">Add Profile</a>
-		</li>
+		</li> -->
 		<% } %>
 		<% if (!isAuthenticated) { %>
 		<li class="mobile-nav__item">
