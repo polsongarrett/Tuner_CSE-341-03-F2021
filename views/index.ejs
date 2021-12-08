@@ -21,33 +21,23 @@
                 <div class="search-box__filters">
                     <form action="/search" method="post">
                         <!-- <input class="form-control" type="text" placeholder="Search by keyword" name="keyword"> -->
-                        <details>
-                            <summary>Search by city name:</summary>
                             <input class="form-control" type="text" placeholder="City name" name="city">
-                        </details>
-                        <details>
-                            <summary>Search by Name: </summary>
                             <label class="form-control" for="firstName">First name: </label>
                             <input type="text" name="firstName" placeholder="Search by first name">
                             <br>
                             <label class="form-control" for="lastName">Last name: </label>
                             <input type="text" name="lastName" placeholder="Search by last name">
-                        </details>
-                        <details>
-                            <summary>Search for vocals:</summary>
-                            <input class="form-control" type="checkbox" name="leadVocals" class="search-box__checkbox" id="leadVocals">
                             <label class="form-control" for="leadVocals">Lead vocals</label>
-                            <input class="form-control" type="checkbox" name="backupVocals" class="search-box__checkbox" id="backupVocals">
+                            <input class="form-control" type="checkbox" name="leadVocals" class="search-box__checkbox" id="leadVocals">
+                            <br>
                             <label class="form-control" for="backupVocals">Backup vocals</label>
-                        </details>
-                            <details>
-                                <summary>Search by instrument:</summary>
-                                    <input class="form-control" type="text" name="instrument" placeholder="Search by instrument">
-                            </details>
-                            <details>
-                                <summary>Search by genre:</summary>
-                                <input class="form-control" type="text" name="genre" placeholder="Search by genre">
-                            </details>
+                            <input class="form-control" type="checkbox" name="backupVocals" class="search-box__checkbox" id="backupVocals">
+                            
+                            <label class="form-control" for="instrument">Instrument: </label>
+                            <input class="form-control" type="text" name="instrument" placeholder="Search by instrument">
+                            
+                            <label class="form-control" for="genre">Genre: </label>
+                            <input class="form-control" type="text" name="genre" placeholder="Search by genre">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button class="search-box__button btn" type="submit" >Search</button>
                     </form>
