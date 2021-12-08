@@ -1,5 +1,6 @@
 .search-box__filters form {
     margin: 1rem;
+    display:block;
 }
   
 .search-page {
@@ -44,8 +45,8 @@
   }
   
   .card_image {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
     border: 1px solid #363537;
     margin: 0.4rem;
     display: flex;
@@ -71,7 +72,7 @@
   .card_content {
       margin-top: 0.5rem;
       overflow-y: hidden;
-      height: 110px;
+      height: 140px;
   }
 
   .musician_instrument ul, .musician_genre ul {
@@ -83,7 +84,7 @@
   }
   
   .form-control {
-    margin: 1rem 0;
+    margin: 0;
   }
     
   .form-control label,
@@ -102,19 +103,12 @@
     padding: 0;
   }
   
-  .form-control textarea {
-    height: 6rem;
-    padding: 0.5rem 0.5rem;
-  }
-  
-  .form-control input,
-  .form-control textarea {
+  .form-control input {
     border: 0.2rem solid #F4EBD9;
     font: inherit;
   }
   
-  .form-control input:focus,
-  .form-control textarea:focus {
+  .form-control input:focus {
     border: 0.2rem solid #363537;
     transition: all 0.5s ease;
   }
