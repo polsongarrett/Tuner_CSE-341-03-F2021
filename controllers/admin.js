@@ -183,6 +183,35 @@ exports.postEditProfile = (req, res, next) => {
 	{
 		imageUrl = updatedImage.path.replace('public', '');
 	}	
+  
+	const errors = validationResult(req); // sends a request to 'validationResult' defined above holding our 'express-validation'. Looks for validation errors.
+
+	if (!errors.isEmpty()) { // says look at 'error' which holds 'validationResult(req)', if isEmpty() is not (!) empty, then run this block.
+		console.log("This is our 'postAddMusician errors array:", errors.array());
+		return res.status(422).render('admin/edit-profile', { // status(422) sends the '422 Unprocessable Entity' code. Means it was unable to process the contained instructions.
+			pageTitle: 'Add Profile',
+			path: '/admin/edit-profile',
+			editing: true, // we set this to true because we are editing and want to change things.
+			hasError: true,
+			musician: {
+				firstName: updatedFirstName,
+				lastName: updatedLastName,
+				leadVocals: updatedLeadVocals,
+				backupVocals: updatedBackupVocals,
+        location: {
+          city: updatedCity,
+          state: updatedState,
+          country: updatedCountry
+        },
+				genres: [updatedGenre],
+				instruments: [updatedInstrument],
+        imageUrl: imageUrl,
+				bio: updatedBio
+			},
+			errorMessage: errors.array()[0].msg, // gets the first element out of an array built from 'errors' which hods data from 'validationResult(req).
+			validationErrors: errors.array() // gets the entire errors.array()
+		});
+	}
 
 	Musician.findByIdAndUpdate(req.body.musicianId, {
 			firstName: updatedFirstName,

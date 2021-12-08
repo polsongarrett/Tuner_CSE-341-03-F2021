@@ -62,8 +62,50 @@ router.post('/add-profile',
     adminController.postAddProfile
     );
 
-router.get('/edit-profile', adminController.getEditProfile);
-router.post('/edit-profile', adminController.postEditProfile);
+router.get('/edit-profile', isAuth, adminController.getEditProfile);
+router.post('/edit-profile',
+[
+    body('firstName') // calls our 'body' const above to use the 'express-validator' with the following values.
+        .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
+        .isLength({ min: 3 }) // sets the minimum length. Could also set max: length as well.
+        .trim(), // trims out whitespace
+    body('lastName') // calls our 'body' const above to use the 'express-validator' with the following values.
+        .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
+        .isLength({ min: 3 }) // sets the minimum length. Could also set max: length as well.
+        .trim(), // trims out whitespace
+    body('city') // calls our 'body' const above to use the 'express-validator' with the following values.
+        .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
+        .isLength({ min: 3 }) // sets the minimum length. Could also set max: length as well.
+        .trim(), // trims out whitespace
+    body('state') // calls our 'body' const above to use the 'express-validator' with the following values.
+        .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
+        .isLength({ min: 2, max: 2 }) // sets the minimum length. Could also set max: length as well.
+        .trim() // trims out whitespace
+        .withMessage('Use 2-letter State Code'),
+    body('country') // calls our 'body' const above to use the 'express-validator' with the following values.
+        .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
+        .isLength({ min: 3, max: 3 }) // sets the minimum length. Could also set max: length as well.
+        .trim() // trims out whitespace
+        .withMessage('Use 3-letter Country Code'),
+    body('genre') // calls our 'body' const above to use the 'express-validator' with the following values.
+        .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
+        .isLength({ min: 3 }) // sets the minimum length. Could also set max: length as well.
+        .trim(), // trims out whitespace
+    body('instrument') // calls our 'body' const above to use the 'express-validator' with the following values.
+        .isAscii() // isAscii(str) is a built-in validator that only allows ascii letters, numbers and some special characters.
+        .isLength({ min: 3 }) // sets the minimum length. Could also set max: length as well.
+        .trim(), // trims out whitespace
+    body('leadVocals')
+        .exists()
+        .withMessage('Required: Lead Vocals yes or no?'),
+    body('backupVocals')
+        .exists()
+        .withMessage('Required: Backup Vocals yes or no?')
+
+],
+ isAuth,
+  adminController.postEditProfile
+  );
 
 
 
